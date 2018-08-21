@@ -134,8 +134,7 @@
                             <ScaleTransform/>
                             <SkewTransform/>
                             <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
+                            <TranslateTransform/>ToggleMenu                        </TransformGroup>
                     </Grid.RenderTransform>
                     <Button x:Name="ButtonOpenMenu" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonOpenMenu_Click">
                         <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>

@@ -59,6 +59,8 @@ namespace Dental_Lab
         {
             UserControl usc = null;
             GridMain.Children.Clear();
+
+            ToggleMenu.IsChecked = !ToggleMenu.IsChecked;
             ToggleMenuAction();
             switch (((ListViewItem)((ListView)sender).SelectedItem).Name)
             {
@@ -78,8 +80,7 @@ namespace Dental_Lab
 
         private void ToggleMenuAction()
         {
-            ToggleMenu.IsChecked = !ToggleMenu.IsChecked;
-            var sb = (Storyboard)FindResource((bool)ToggleMenu.IsChecked ? "CloseMenu" : "OpenMenu" );
+            var sb = (Storyboard)FindResource((bool)ToggleMenu.IsChecked ? "OpenMenu" : "CloseMenu");
             sb.Begin();
         }
     }
