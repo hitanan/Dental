@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>propn</Title>
+                    <!-- the shortcut below will show in your intellisense 
+                         window - set it to whatever you wish -->
+            <Shortcut>propn</Shortcut>
+            <Description>Code snippet for a property with INotifyPropertyChanged base Class</Description>
+            <Author>An Nguyen</Author>
+            <SnippetTypes>
+                <SnippetType>Expansion</SnippetType>
+            </SnippetTypes>
+        </Header>
+        <Snippet>
+            <Declarations>
+                <Literal>
+                    <ID>type</ID>
+                    <Default>string</Default>
+                    <ToolTip>Property type</ToolTip>
+                </Literal>
+                <Literal>
+                    <ID>pname</ID>
+                    <Default>name</Default>
+                    <ToolTip>Private field name</ToolTip>
+                </Literal>
+                <Literal>
+                    <ID>name</ID>
+                    <Default>Name</Default>
+                    <ToolTip>Property name</ToolTip>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp">
+                    <![CDATA[private $type$ _$pname$;
+            public $type$ $name$
+            {
+                get => this._$pname$;
+                set => SetProperty(ref this._$pname$, value);
+            }$end$]]>
+            </Code>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

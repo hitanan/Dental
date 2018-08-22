@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:Dental_Lab"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1080"
@@ -13,7 +14,10 @@
          TextOptions.TextFormattingMode="Ideal"
          TextOptions.TextRenderingMode="Auto"
          Background="{DynamicResource MaterialDesignPaper}"
-         FontFamily="{DynamicResource MaterialDesignFont}" WindowState="Maximized" WindowStyle="None">
+         FontFamily="{DynamicResource MaterialDesignFont}" 
+        x:Name="MainWindows"
+         DataContext="{StaticResource MainVM}"
+        WindowState="Maximized" WindowStyle="None">
 
     <Window.Resources>
         <Storyboard x:Key="OpenMenu">
@@ -29,14 +33,6 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
-    <!--<Window.Triggers>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
-            <BeginStoryboard Storyboard="{StaticResource OpenMenu}"/>
-        </EventTrigger>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
-            <BeginStoryboard Storyboard="{StaticResource CloseMenu}"/>
-        </EventTrigger>
-    </Window.Triggers>-->
 
     <Grid>
         <materialDesign:ColorZone
@@ -49,14 +45,18 @@
                     <StackPanel>
                         <Button Content="Change Password"  />
                         <Button Content="Sign out"  />
-                        <Button Content="Close" Click="Close_Click" />
+                        <Button Content="Close" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
                     </StackPanel>
                 </materialDesign:PopupBox>
 
                 <StackPanel
                   Orientation="Horizontal"
                   materialDesign:RippleAssist.IsCentered="True">
-                    <ToggleButton x:Name="ToggleMenu" Click="Toggle_Menu_Click" Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
+                    <ToggleButton x:Name="ToggleMenu" 
+                                  Command="{Binding ToggleCommand}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                  IsChecked="{Binding ToggleIsCheched, Mode=TwoWay}"  
+                                  Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />
 
                     <materialDesign:ColorZone
                     Mode="Standard"
@@ -128,23 +128,20 @@
                 <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
             </Grid.Effect>
             <StackPanel>
-                <!--<Grid Background="White" RenderTransformOrigin="0.5,0.5">
-                    <Grid.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>ToggleMenu                        </TransformGroup>
-                    </Grid.RenderTransform>
-                    <Button x:Name="ButtonOpenMenu" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonOpenMenu_Click">
-                        <materialDesign:PackIcon Kind="Menu" Width="25" Height="25"/>
-                    </Button>
-                    <Button x:Name="ButtonCloseMenu" Visibility="Collapsed" Height="60" Width="60" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" Click="ButtonCloseMenu_Click">
-                        <materialDesign:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
-                    </Button>
-
-                </Grid>-->
-                <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged">
+                <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ToggleMenuItemCommand}">
+                                <i:InvokeCommandAction.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource MultiValueParam}">
+                                        <Binding ElementName="MainWindows"/>
+                                        <Binding ElementName="ListViewMenu" Path="SelectedItem"/>
+                                        <Binding ElementName="GridMain"/>
+                                    </MultiBinding>
+                                </i:InvokeCommandAction.CommandParameter>
+                            </i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ListViewItem x:Name="ItemHome" Height="60">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
@@ -175,7 +172,9 @@
 
 
 
-        <Button x:Name="Alert" Content="Button" HorizontalAlignment="Left" Margin="936,20,0,0" VerticalAlignment="Top" Width="76" Click="Button_Click"/>
+        <Button x:Name="Alert" Content="Button" HorizontalAlignment="Left" Margin="628,19,0,0" VerticalAlignment="Top" Width="76" 
+                Command="{Binding CloseCommand}" 
+                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
 
     </Grid>
 </Window>
