@@ -32,11 +32,12 @@ namespace Dental_Lab.ViewModel
             set => SetProperty(ref _MenuSelected, value);
         }
 
+  
         public MainViewModel()
         {
-            CloseCommand = new RelayCommand<Window>(null, (w) => { w.Close(); });
-            ToggleCommand = new RelayCommand<Window>(null, (w) => ToggleMenuAction(w));
-            ToggleMenuItemCommand = new RelayCommand<object>(null, (obj) =>
+            CloseCommand = new RelayCommand<Window>((w) => { w.Close(); });
+            ToggleCommand = new RelayCommand<Window>((w) => ToggleMenuAction(w));
+            ToggleMenuItemCommand = new RelayCommand<object>((obj) =>
             {
                 ToggleIsCheched = !ToggleIsCheched;
 

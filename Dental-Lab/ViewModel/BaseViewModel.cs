@@ -61,7 +61,7 @@ namespace Dental_Lab.ViewModel
         private readonly Predicate<T> _canExecute;
         private readonly Action<T> _execute;
 
-        public RelayCommand(Predicate<T> canExecute, Action<T> execute)
+        public RelayCommand(Action<T> execute, Predicate<T> canExecute = null)
         {
             if (execute == null)
                 throw new ArgumentNullException("execute");
