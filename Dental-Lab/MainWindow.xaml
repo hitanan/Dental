@@ -35,7 +35,11 @@
     </Window.Resources>
 
     <Grid>
-        <materialDesign:ColorZone
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <materialDesign:ColorZone Grid.Row="0"
           Mode="PrimaryMid"
           Padding="16">
             <DockPanel>
@@ -111,65 +115,66 @@
             </DockPanel>
         </materialDesign:ColorZone>
 
-        <Grid x:Name="GridMain" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="520" Width="997" Margin="75,0,0,0" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="251*"/>
-                <ColumnDefinition Width="250*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Grid x:Name="GridMenu" Grid.Column="0"  Width="70" HorizontalAlignment="Left" Background="#FF31577E" Margin="0,0,0,0">
+                <Grid.Effect>
+                    <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
+                </Grid.Effect>
+                <StackPanel>
+                    <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ToggleMenuItemCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource MultiValueParam}">
+                                            <Binding ElementName="MainWindows"/>
+                                            <Binding ElementName="ListViewMenu" Path="SelectedItem"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ListViewItem x:Name="ItemHome" Height="60">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
+                                <TextBlock Text="Home" VerticalAlignment="Center" Margin="20 10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem x:Name="ItemCreate" Height="60">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="10"/>
+                                <TextBlock Text="Create" VerticalAlignment="Center" Margin="20 10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Height="60">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Ticket" Height="25" Width="25" Margin="10"/>
+                                <TextBlock Text="Tickets" VerticalAlignment="Center"  Margin="20 10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                        <ListViewItem Height="60">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Message" Height="25" Width="25" Margin="10"/>
+                                <TextBlock Text="Messages" VerticalAlignment="Center"  Margin="20 10"/>
+                            </StackPanel>
+                        </ListViewItem>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+            <!--<Grid x:Name="GridMain" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="0,0,0,0" >
+            </Grid>-->
+            <ScrollViewer Grid.Column="1"
+                            HorizontalScrollBarVisibility="Auto"
+                           VerticalScrollBarVisibility="Auto" 
+                           HorizontalAlignment="Left" VerticalAlignment="Top" >
+                <ContentControl Content="{Binding MainControl}" />
+            </ScrollViewer>
         </Grid>
-
-        <Grid x:Name="GridMenu" Width="70" HorizontalAlignment="Left" Background="#FF31577E" Margin="0,72,0,0">
-            <Grid.Effect>
-                <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
-            </Grid.Effect>
-            <StackPanel>
-                <ListView x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding ToggleMenuItemCommand}">
-                                <i:InvokeCommandAction.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValueParam}">
-                                        <Binding ElementName="MainWindows"/>
-                                        <Binding ElementName="ListViewMenu" Path="SelectedItem"/>
-                                        <Binding ElementName="GridMain"/>
-                                    </MultiBinding>
-                                </i:InvokeCommandAction.CommandParameter>
-                            </i:InvokeCommandAction>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <ListViewItem x:Name="ItemHome" Height="60">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Home" VerticalAlignment="Center" Margin="20 10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem x:Name="ItemCreate" Height="60">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Create" VerticalAlignment="Center" Margin="20 10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem Height="60">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Ticket" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Tickets" VerticalAlignment="Center"  Margin="20 10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem Height="60">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="Message" Height="25" Width="25" Margin="10"/>
-                            <TextBlock Text="Messages" VerticalAlignment="Center"  Margin="20 10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                </ListView>
-            </StackPanel>
-        </Grid>
-
 
 
         <Button x:Name="Alert" Content="Button" HorizontalAlignment="Left" Margin="628,19,0,0" VerticalAlignment="Top" Width="76" 

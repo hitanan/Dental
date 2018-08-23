@@ -32,36 +32,33 @@ namespace Dental_Lab.ViewModel
             set => SetProperty(ref _MenuSelected, value);
         }
 
-  
+        private object _maincontrol;
+        public object MainControl { get => _maincontrol; set => SetProperty(ref _maincontrol, value); }
+
         public MainViewModel()
         {
-            CloseCommand = new RelayCommand<Window>((w) => { w.Close(); });
-            ToggleCommand = new RelayCommand<Window>((w) => ToggleMenuAction(w));
-            ToggleMenuItemCommand = new RelayCommand<object>((obj) =>
+            CloseCommand = new RelayCommand<Window>(w => w.Close());
+            ToggleCommand = new RelayCommand<Window>(w => ToggleMenuAction(w));
+            ToggleMenuItemCommand = new RelayCommand<object>(obj =>
             {
                 ToggleIsCheched = !ToggleIsCheched;
 
                 var values = (object[])obj;
                 var window = (Window)values[0];
                 var SelectedItem = (ListViewItem)values[1];
-                var GridMain = (Grid)values[2];
 
                 ToggleMenuAction(window);
-
-                UserControl usc = null;
-                GridMain.Children.Clear();
 
                 switch (SelectedItem.Name)
                 {
                     case "ItemHome":
-                        usc = new Client();
-                        GridMain.Children.Add(usc);
+                        MainControl = new Client();
                         break;
                     case "ItemCreate":
-                        usc = new Client();
-                        GridMain.Children.Add(usc);
+                        MainControl = new Client();
                         break;
                     default:
+                        MainControl = null;
                         break;
                 }
 
