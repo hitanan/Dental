@@ -35,8 +35,14 @@ namespace Dental_Lab.ViewModel
         private object _maincontrol;
         public object MainControl { get => _maincontrol; set => SetProperty(ref _maincontrol, value); }
 
+        public Dictionary<string, object> OpenedControls = new Dictionary<string, object>();
         public MainViewModel()
         {
+            // Open  this page first
+            MainControl = new Schedule();
+            OpenedControls.Add("ItemSchedule", MainControl);
+
+
             CloseCommand = new RelayCommand<Window>(w => w.Close());
             ToggleCommand = new RelayCommand<Window>(w => ToggleMenuAction(w));
             ToggleMenuItemCommand = new RelayCommand<object>(obj =>
@@ -48,18 +54,21 @@ namespace Dental_Lab.ViewModel
                 var SelectedItem = (ListViewItem)values[1];
 
                 ToggleMenuAction(window);
-
-                switch (SelectedItem.Name)
+                if (OpenedControls.ContainsKey(SelectedItem.Name))
                 {
-                    case "ItemSchedule":
-                        MainControl = new Schedule();
-                        break;
-                    case "ItemCreate":
-                        MainControl = new Client();
-                        break;
-                    default:
-                        MainControl = null;
-                        break;
+                    MainControl = OpenedControls[SelectedItem.Name];
+                }
+                else
+                {
+                    switch (SelectedItem.Name)
+                    {
+                        case "ItemClient":
+                            MainControl = new Client();
+                            break;
+                        default:
+                            break;
+                    }
+                    OpenedControls.Add(SelectedItem.Name, MainControl);
                 }
 
             });

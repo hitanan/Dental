@@ -9,6 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1024">
     <Grid>
-       <syncfusion:SfSchedule ScheduleType="Week"/>
+       <syncfusion:SfSchedule TimeInterval="TwentyMin" ScheduleType="Week"/>
     </Grid>
 </UserControl>
