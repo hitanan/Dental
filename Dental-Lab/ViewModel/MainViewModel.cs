@@ -51,8 +51,8 @@ namespace Dental_Lab.ViewModel
 
                 switch (SelectedItem.Name)
                 {
-                    case "ItemHome":
-                        MainControl = new Client();
+                    case "ItemSchedule":
+                        MainControl = new Schedule();
                         break;
                     case "ItemCreate":
                         MainControl = new Client();

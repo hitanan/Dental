@@ -13,5 +13,10 @@ namespace Dental_Lab
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            //Register Syncfusion license
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(ConfigurationManager.AppSettings["SyncfusionLicenseKey"]);
+        }
     }
 }
