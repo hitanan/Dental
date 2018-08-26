@@ -16,6 +16,8 @@ namespace Dental_Lab
         public App()
         {
             //Register Syncfusion license
+            //ApplicationLanguages.PrimaryLanguageOverride = "vi-vn";
+
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(ConfigurationManager.AppSettings["SyncfusionLicenseKey"]);
         }
     }

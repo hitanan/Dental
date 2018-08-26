@@ -32,28 +32,23 @@ namespace Dental_Lab.ViewModel
             set => SetProperty(ref _MenuSelected, value);
         }
 
-        private object _maincontrol;
+        private object _maincontrol = new Schedule();
         public object MainControl { get => _maincontrol; set => SetProperty(ref _maincontrol, value); }
 
         public Dictionary<string, object> OpenedControls = new Dictionary<string, object>();
         public MainViewModel()
         {
-            // Open  this page first
-            MainControl = new Schedule();
-            OpenedControls.Add("ItemSchedule", MainControl);
-
-
             CloseCommand = new RelayCommand<Window>(w => w.Close());
             ToggleCommand = new RelayCommand<Window>(w => ToggleMenuAction(w));
             ToggleMenuItemCommand = new RelayCommand<object>(obj =>
             {
-                ToggleIsCheched = !ToggleIsCheched;
 
                 var values = (object[])obj;
                 var window = (Window)values[0];
                 var SelectedItem = (ListViewItem)values[1];
 
-                ToggleMenuAction(window);
+                //ToggleIsCheched = !ToggleIsCheched;
+                //ToggleMenuAction(window);
                 if (OpenedControls.ContainsKey(SelectedItem.Name))
                 {
                     MainControl = OpenedControls[SelectedItem.Name];
@@ -62,6 +57,9 @@ namespace Dental_Lab.ViewModel
                 {
                     switch (SelectedItem.Name)
                     {
+                        case "ItemSchedule":
+                            MainControl = new Schedule();
+                            break;
                         case "ItemClient":
                             MainControl = new Client();
                             break;
@@ -80,16 +78,4 @@ namespace Dental_Lab.ViewModel
         }
     }
 
-    public class MultiValueConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            return values.Clone();
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

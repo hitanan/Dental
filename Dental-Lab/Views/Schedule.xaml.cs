@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,7 +24,11 @@ namespace Dental_Lab.Views
     {
         public Schedule()
         {
+            //Properties.Resources.Culture = new CultureInfo("vi-VN");
             InitializeComponent();
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("vi-VN");
+            CultureInfo culture = CultureInfo.CreateSpecificCulture("vi");
+            Thread.CurrentThread.CurrentCulture = culture;
         }
     }
 }

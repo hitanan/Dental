@@ -96,8 +96,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanToStringValueConverter.cs" />
+    <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleViewModel.cs" />
     <Compile Include="Views\Client.xaml.cs">
       <DependentUpon>Client.xaml</DependentUpon>
     </Compile>

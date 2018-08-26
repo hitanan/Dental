@@ -4,11 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
-
              xmlns:local="clr-namespace:Dental_Lab.Views"
+             DataContext="{StaticResource ScheduleVM}"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1024">
+    <!--<UserControl.DataContext>
+        <StaticResource ResourceKey="ScheduleVM"/>
+    </UserControl.DataContext>-->
     <Grid>
-       <syncfusion:SfSchedule TimeInterval="TwentyMin" ScheduleType="Week"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <syncfusion:SfSchedule Grid.Row="1" TimeInterval="TwentyMin" 
+                               ShowAllDay="False" 
+                               WorkStartHour="7" 
+                               WorkEndHour="22" 
+                               ShowNonWorkingHours="False"
+                               FirstDayOfWeek="Monday"
+                               ScheduleType="{Binding ScheduleType}"/>
+
+        <StackPanel Grid.Row="0" Margin="0,10,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Grid.RowSpan="2">
+            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Day" Content="Ngày"  Margin="10 0"
+                         IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Day}"/>
+            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Week" Content="Tuần" Margin="10 0"
+                         IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Week}"/>
+            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Month" Content="Tháng" Margin="10 0"
+                         IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Month}"/>
+            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Timeline" Content="TimeLine" Margin="10 0 0 0"
+                         IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=TimeLine}"/>
+        </StackPanel>
+
     </Grid>
 </UserControl>

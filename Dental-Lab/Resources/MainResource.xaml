@@ -1,7 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:viewmodel="clr-namespace:Dental_Lab.ViewModel"
+                    xmlns:cv="clr-namespace:Dental_Lab.Converters"
                     xmlns:local="clr-namespace:Dental_Lab.Resources">
     <viewmodel:MainViewModel x:Key="MainVM"></viewmodel:MainViewModel>
-    <viewmodel:MultiValueConverter x:Key="MultiValueParam"></viewmodel:MultiValueConverter>
+    <viewmodel:ScheduleViewModel x:Key="ScheduleVM"></viewmodel:ScheduleViewModel>
+    <cv:MultiValueConverter x:Key="MultiValueParam"></cv:MultiValueConverter>
+    <cv:BooleanToStringValueConverter x:Key="BoolToStringConverter"></cv:BooleanToStringValueConverter>
 </ResourceDictionary>
