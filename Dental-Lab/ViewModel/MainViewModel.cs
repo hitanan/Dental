@@ -32,7 +32,7 @@ namespace Dental_Lab.ViewModel
             set => SetProperty(ref _MenuSelected, value);
         }
 
-        private object _maincontrol = new Schedule();
+        private object _maincontrol = new Scheduler();
         public object MainControl { get => _maincontrol; set => SetProperty(ref _maincontrol, value); }
 
         public Dictionary<string, object> OpenedControls = new Dictionary<string, object>();
@@ -58,7 +58,7 @@ namespace Dental_Lab.ViewModel
                     switch (SelectedItem.Name)
                     {
                         case "ItemSchedule":
-                            MainControl = new Schedule();
+                            MainControl = new Scheduler();
                             break;
                         case "ItemClient":
                             MainControl = new Client();

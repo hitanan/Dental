@@ -61,6 +61,9 @@
     <Reference Include="Syncfusion.Licensing, Version=16.2460.0.46, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.Licensing.16.2.0.46\lib\net46\Syncfusion.Licensing.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.SfInput.Wpf, Version=16.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.SfInput.WPF.16.2.0.46\lib\net46\Syncfusion.SfInput.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.SfRadialMenu.Wpf, Version=16.2460.0.46, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.SfRadialMenu.WPF.16.2.0.46\lib\net46\Syncfusion.SfRadialMenu.Wpf.dll</HintPath>
     </Reference>
@@ -104,8 +107,8 @@
     <Compile Include="Views\Client.xaml.cs">
       <DependentUpon>Client.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Schedule.xaml.cs">
-      <DependentUpon>Schedule.xaml</DependentUpon>
+    <Compile Include="Views\Scheduler.xaml.cs">
+      <DependentUpon>Scheduler.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -127,7 +130,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Schedule.xaml">
+    <Page Include="Views\Scheduler.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,6 +179,17 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\AddNew.png" />
+    <Resource Include="Assets\Cake.png" />
+    <Resource Include="Assets\Copy.png" />
+    <Resource Include="Assets\Delete.png" />
+    <Resource Include="Assets\Edit.png" />
+    <Resource Include="Assets\Hospital.png" />
+    <Resource Include="Assets\Paste.png" />
+    <Resource Include="Assets\ReminderIcon.png" />
+    <Resource Include="Assets\Team.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@
                     xmlns:cv="clr-namespace:Dental_Lab.Converters"
                     xmlns:local="clr-namespace:Dental_Lab.Resources">
     <viewmodel:MainViewModel x:Key="MainVM"></viewmodel:MainViewModel>
-    <viewmodel:ScheduleViewModel x:Key="ScheduleVM"></viewmodel:ScheduleViewModel>
+    <!--<viewmodel:ScheduleViewModel x:Key="ScheduleVM"></viewmodel:ScheduleViewModel>-->
     <cv:MultiValueConverter x:Key="MultiValueParam"></cv:MultiValueConverter>
     <cv:BooleanToStringValueConverter x:Key="BoolToStringConverter"></cv:BooleanToStringValueConverter>
 </ResourceDictionary>
