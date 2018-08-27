@@ -20,10 +20,10 @@
                         <Border shared:SkinStorage.VisualStyle="Metro" Background="LightGray" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="220"/>
-                                    <ColumnDefinition Width="600"/>
+                                    <ColumnDefinition Width="320"/>
+                                    <ColumnDefinition Width="500"/>
                                 </Grid.ColumnDefinitions>
-                                <ScrollViewer x:Name="scroll" Background="Transparent" Height="500" Width="220" BorderThickness="0,0,1,0" VerticalScrollBarVisibility="Auto">
+                                <ScrollViewer x:Name="scroll" Background="Transparent" Height="500" Width="320" BorderThickness="0,0,1,0" VerticalScrollBarVisibility="Auto">
                                     <Grid Margin="10 5">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
@@ -46,27 +46,33 @@
                                             <RowDefinition />
                                             <RowDefinition />
                                             <RowDefinition />
-                                            <RowDefinition />
-                                            <RowDefinition />
+                                            <!--<RowDefinition />
+                                            <RowDefinition />-->
                                             <RowDefinition />
                                             <RowDefinition />
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="1" FontFamily="Segoe UI" Foreground="#757575" Text="Details" FontSize="24" Margin="10 0"/>
+                                        
                                         <TextBlock Grid.Row="3" FontFamily="Segoe UI" FontSize="12" Foreground="Black" Text="When" Margin="10 5 0 2"/>
-                                        <DatePicker x:Name="editstartmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding Appointment.StartTime}" SelectedDateFormat="Short" Grid.Row="4" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
-                                        <TextBlock Grid.Row="5" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Start" Margin="10 2"/>
-                                        <shared:DateTimeEdit x:Name="editstarttime" FontSize="12" FontFamily="Segoe UI" DateTime="{Binding Appointment.StartTime,Mode=OneWay}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Grid.Row="6" Margin="10 2 10 10"/>
+                                        <StackPanel Orientation="Horizontal" Grid.Row="4">
+                                        <DatePicker x:Name="addstartmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding CurrentSelectedDate}"  SelectedDateFormat="Short" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
+                                        <DatePicker x:Name="editstartmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding Appointment.StartTime}" SelectedDateFormat="Short" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
+                                        
+                                        <!--<TextBlock Grid.Row="5" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Start" Margin="10 2"/>-->
+                                        <shared:DateTimeEdit x:Name="addstarttime" FontFamily="Segoe UI" FontSize="12" DateTime="{Binding CurrentSelectedDate}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Margin="10 2 10 10"/>
+                                        <shared:DateTimeEdit x:Name="editstarttime" FontSize="12" FontFamily="Segoe UI" DateTime="{Binding Appointment.StartTime,Mode=OneWay}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Margin="10 2 10 10"/>
+                                        </StackPanel>
+                                        
                                         <TextBlock Grid.Row="7" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" Foreground="Black"  Text="How Long" Margin="10 2"/>
-                                        <DatePicker x:Name="editendmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Grid.Row="8" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
-                                        <DatePicker x:Name="addstartmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding CurrentSelectedDate}"  SelectedDateFormat="Short" Grid.Row="4" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
-                                        <shared:DateTimeEdit x:Name="addstarttime" FontFamily="Segoe UI" FontSize="12" DateTime="{Binding CurrentSelectedDate}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Grid.Row="6" Margin="10 2 10 10"/>
                                         <DatePicker x:Name="addendmonth" FontFamily="Segoe UI" FontSize="12" SelectedDateFormat="Short" Grid.Row="8" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
-                                        <shared:DateTimeEdit x:Name="addendtime" FontFamily="Segoe UI" FontSize="12" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Grid.Row="10" Margin="10 2 10 10"/>
+                                        <DatePicker x:Name="editendmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Grid.Row="8" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
+                                        
                                         <TextBlock Grid.Row="9" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="End" Margin="10 2"/>
+                                        <shared:DateTimeEdit x:Name="addendtime" FontFamily="Segoe UI" FontSize="12" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Grid.Row="10" Margin="10 2 10 10"/>
                                         <shared:DateTimeEdit x:Name="editendtime" FontSize="12" FontFamily="Segoe UI" DateTime="{Binding Appointment.EndTime}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Grid.Row="10" Margin="10 2 10 10"/>
                                         <!--<TextBlock Grid.Row="11" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Where" Margin="10 2"/>-->
                                         <!--<sfInput:SfTextBoxExt x:Name="where" FontFamily="Segoe UI" FontSize="12" BorderThickness="0" Foreground="#FF454545" Text="{Binding Appointment.Location,Mode=OneWay}" Grid.Row="12" Margin="10 2 10 10" Height="25"/>-->
-                                        <StackPanel Grid.Row="13" x:Name="showmorepanel" Grid.RowSpan="10">
+                                        <StackPanel Grid.Row="11" x:Name="showmorepanel" Grid.RowSpan="10">
                                             <!--<TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center" Text="Reminder" Margin="10 2"/>-->
                                             <!--<ComboBox FontFamily="Segoe UI" FontSize="12" SelectedItem="{Binding Appointment.ReminderTime,Mode=OneWay}" x:Name="reminder" Margin="10 2 10 10" Height="25"/>-->
                                             <!--<ComboBox x:Name="addreminder" FontFamily="Segoe UI" FontSize="12" Margin="10 2 10 10" Height="25"/>-->

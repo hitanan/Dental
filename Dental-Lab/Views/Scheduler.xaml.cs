@@ -115,7 +115,7 @@ namespace Dental_Lab.Views
             DataContext = this;
 
             //PreviewMouseLeftButtonUp += Schedule_PreviewMouseLeftButtonDown;
-            //Schedule.ContextMenuOpening += Schedule_PopupMenuOpening;
+            Schedule.ContextMenuOpening += Schedule_PopupMenuOpening;
             //Schedule.MouseLeave += new MouseEventHandler(Schedule_MouseLeave);
             Schedule.AppointmentEditorOpening += Schedule_AppointmentEditorOpening;
             Schedule.Loaded += Schedule_Loaded;
@@ -232,6 +232,17 @@ namespace Dental_Lab.Views
             }
         }
         */
+
+        void Schedule_PopupMenuOpening(object sender, ContextMenuOpeningEventArgs e)
+        {
+            if (e.CurrentSelectedDate != null)
+            {
+                CurrentSelectedDate = (DateTime)e.CurrentSelectedDate;
+            }
+
+            AddDataContext = new BindingClass() { CurrentSelectedDate = e.CurrentSelectedDate, Appointment = e.Appointment };
+        }
+
         void Schedule_AppointmentEditorOpening(object sender, AppointmentEditorOpeningEventArgs e)
         {
             e.Cancel = true;
