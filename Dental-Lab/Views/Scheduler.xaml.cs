@@ -496,7 +496,7 @@ namespace Dental_Lab.Views
             Save = GetTemplateChild("save") as Button;
             //Reminder = GetTemplateChild("reminder") as ComboBox;
             Delete = GetTemplateChild("delete") as Button;
-            ShowMorePanel = GetTemplateChild("showmorepanel") as StackPanel;
+            //ShowMorePanel = GetTemplateChild("showmorepanel") as StackPanel;
             Scroll = GetTemplateChild("scroll") as ScrollViewer;
             Scroll.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             Visibility = Visibility.Collapsed;
