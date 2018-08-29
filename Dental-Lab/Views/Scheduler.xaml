@@ -14,14 +14,24 @@
         <StaticResource ResourceKey="ScheduleVM"/>
     </UserControl.DataContext>-->
     <UserControl.Resources>
+        <!--<Style TargetType="{x:Type ComboBox}">
+            <Setter Property="Height" Value="25"></Setter>
+        </Style>-->
+        <!--<Style TargetType="{x:Type DatePicker}">
+            <Setter Property="Height" Value="25"></Setter>
+        </Style>
+        <Style TargetType="{x:Type DatePicker}">
+            <Setter Property="Height" Value="25"></Setter>
+        </Style>-->
         <Style x:Key="Editor" TargetType="local:CustomEditor">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="local:CustomEditor">
-                        <Border shared:SkinStorage.VisualStyle="Metro" Background="WhiteSmoke" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!--<Border shared:SkinStorage.VisualStyle="Metro" Background="WhiteSmoke" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">-->
+                        <materialDesign:ColorZone Mode="Standard" materialDesign:ShadowAssist.ShadowDepth="Depth5"  HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <ScrollViewer x:Name="scroll" Background="Transparent" Height="500" Width="500" BorderThickness="0,0,1,0" VerticalScrollBarVisibility="Auto">
-                                    <Grid Margin="10 5">
+                                    <Grid Margin="20 10">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
                                             <RowDefinition />
@@ -38,62 +48,64 @@
                                             <ColumnDefinition Width="0.7*"/>
                                         </Grid.ColumnDefinitions>
                                         
-                                        <TextBlock Grid.Row="0" FontFamily="Segoe UI" Foreground="#757575" Text="Lịch hẹn" FontSize="24" Margin="0 10"/>
-                                        <Grid Grid.Row="0" Grid.Column="1" Margin="35 40">
-                                            <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
-                                                <Button x:Name="save"  Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Save">
-                                                    <materialDesign:PackIcon Kind="ContentSave" Height="24" Width="24" />
-                                                </Button>
-                                                <Button x:Name="delete" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Delete">
-                                                    <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
-                                                </Button>
-                                                <Button x:Name="close" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Close">
-                                                    <materialDesign:PackIcon Kind="Close" Height="24" Width="24" />
-                                                </Button>
-                                            </StackPanel>
-                                            <!--<Border Grid.Row="1" Grid.ColumnSpan="2" BorderBrush="#666666" BorderThickness="0,1,0,0" VerticalAlignment="Center"/>-->
-                                        </Grid>
-                                        
-                                        <TextBlock Grid.Row="1" Margin="10 2" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Khách hàng"  />
-                                        <ComboBox Grid.Row="1" Grid.Column="1" FontFamily="Segoe UI" FontSize="12" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}" Margin="10 2 10 10" x:Name="doctor" Height="25"/>
-                                        <TextBlock Grid.Row="2" Margin="10 2" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Bác sĩ"  />
-                                        <ComboBox Grid.Row="2" Grid.Column="1" FontFamily="Segoe UI" FontSize="12" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}" Margin="10 2 10 10" x:Name="client" Height="25"/>
-
-                                        <TextBlock FontFamily="Segoe UI" Grid.Row="3"  FontSize="12" Foreground="Black" Text="Bắt đầu " Margin="10 5 0 2"/>
-                                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
-                                            <DatePicker x:Name="addstartmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding CurrentSelectedDate}"  SelectedDateFormat="Short" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" />
-                                            <DatePicker x:Name="editstartmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding Appointment.StartTime}" SelectedDateFormat="Short" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" />
-                                            <shared:DateTimeEdit x:Name="addstarttime" FontFamily="Segoe UI" FontSize="12" DateTime="{Binding CurrentSelectedDate}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Margin="10 2 10 10"/>
-                                            <shared:DateTimeEdit x:Name="editstarttime" FontSize="12" FontFamily="Segoe UI" DateTime="{Binding Appointment.StartTime,Mode=OneWay}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Margin="10 2 10 10"/>
+                                        <TextBlock Grid.Row="0" FontFamily="Segoe UI" Foreground="#757575" Text="Lịch hẹn" FontSize="24"/>
+                                        <StackPanel  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0 0 -10 20">
+                                            <Button x:Name="save"  Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Save">
+                                                <materialDesign:PackIcon Kind="ContentSave" Height="24" Width="24" />
+                                            </Button>
+                                            <Button x:Name="delete" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Delete">
+                                                <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
+                                            </Button>
+                                            <Button x:Name="close" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Close">
+                                                <materialDesign:PackIcon Kind="Close" Height="24" Width="24" />
+                                            </Button>
                                         </StackPanel>
-                                        <TextBlock Grid.Row="4" FontFamily="Segoe UI" FontSize="12" VerticalAlignment="Center" Foreground="Black"  Text="Kết thúc" Margin="10 2"/>
+
+                                        <TextBlock Grid.Row="1" Foreground="Black" VerticalAlignment="Center" Text="Khách hàng"/>
+                                        <sfInput:SfTextBoxExt  Grid.Row="1" Grid.Column="1" x:Name="client" Height="25"
+                                                  SearchItemPath="Subject"  AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding Appointments}"/>
+                                        
+                                        <TextBlock Grid.Row="2" Foreground="Black" VerticalAlignment="Center" Text="Bác sĩ"/>
+                                        <ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}"  x:Name="doctor" Height="25"/>
+
+                                        <TextBlock Grid.Row="3" Text="Bắt đầu" Margin="0 20" />
+                                        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+                                            <DatePicker x:Name="addstartmonth" SelectedDate="{Binding CurrentSelectedDate}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 20 0"/>
+                                            <DatePicker x:Name="editstartmonth" SelectedDate="{Binding Appointment.StartTime}" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"  Margin="0 0 20 0"/>
+                                            <shared:DateTimeEdit x:Name="addstarttime" DateTime="{Binding CurrentSelectedDate}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
+                                            <shared:DateTimeEdit x:Name="editstarttime" DateTime="{Binding Appointment.StartTime,Mode=OneWay}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="4" Text="Kết thúc" Margin="0 20" />
                                         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
-                                            <DatePicker x:Name="addendmonth" FontFamily="Segoe UI" FontSize="12" SelectedDateFormat="Short" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
-                                            <DatePicker x:Name="editendmonth" FontFamily="Segoe UI" FontSize="12" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Margin="10 2 10 10" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"/>
-                                            <shared:DateTimeEdit x:Name="addendtime" FontFamily="Segoe UI" FontSize="12" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Margin="10 2 10 10"/>
-                                            <shared:DateTimeEdit x:Name="editendtime" FontSize="12" FontFamily="Segoe UI" DateTime="{Binding Appointment.EndTime}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Margin="10 2 10 10"/>
+                                            <DatePicker x:Name="addendmonth" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 20 0"/>
+                                            <DatePicker x:Name="editendmonth" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 20 0"/>
+                                            <shared:DateTimeEdit x:Name="addendtime" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
+                                            <shared:DateTimeEdit x:Name="editendtime" DateTime="{Binding Appointment.EndTime}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
                                         </StackPanel>
                                         <!--<TextBlock Grid.Row="11" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Where" Margin="10 2"/>-->
                                         <!--<sfInput:SfTextBoxExt x:Name="where" FontFamily="Segoe UI" FontSize="12" BorderThickness="0" Foreground="#FF454545" Text="{Binding Appointment.Location,Mode=OneWay}" Grid.Row="12" Margin="10 2 10 10" Height="25"/>-->
 
-                                        <TextBlock Grid.Row="6" Margin="10 2" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Appointment Type"  />
-                                        <ComboBox Grid.Row="6" Grid.Column="1" FontFamily="Segoe UI" FontSize="12" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}" Margin="10 2 10 10" x:Name="apptype" Height="25"/>
+                                        <TextBlock Grid.Row="5" Text="Appointment Type" Margin="0 20" />
+                                        <ComboBox Grid.Row="5" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}" x:Name="apptype" Height="25"/>
 
-                                        <sfInput:SfTextBoxExt x:Name="sub" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"  FontFamily="Segoe UI" Foreground="#666666" BorderThickness="0" Text="{Binding Appointment.Subject,Mode=OneWay}" FontWeight="ExtraLight" FontSize="23" TextWrapping="Wrap" VerticalAlignment="Center">
-                                            <sfInput:SfTextBoxExt.WatermarkTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="Nội dung" Foreground="#666666" FontFamily="Segoe UI"/>
-                                                </DataTemplate>
-                                            </sfInput:SfTextBoxExt.WatermarkTemplate>
-                                        </sfInput:SfTextBoxExt>
-                                        <sfInput:SfTextBoxExt x:Name="notes" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Foreground="#666666" FontFamily="Segoe UI"  BorderThickness="0" Text="{Binding Appointment.Notes}" FontWeight="ExtraLight" FontSize="18" TextWrapping="Wrap" VerticalAlignment="Top">
+       
+                                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Ghi chú"/>
+                                        <sfInput:SfTextBoxExt x:Name="notes" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" BorderThickness="0" Text="{Binding Appointment.Notes}" FontWeight="ExtraLight" TextWrapping="Wrap">
                                             <sfInput:SfTextBoxExt.WatermarkTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="Ghi chú" Foreground="#666666" FontFamily="Segoe UI" />
                                                 </DataTemplate>
                                             </sfInput:SfTextBoxExt.WatermarkTemplate>
                                         </sfInput:SfTextBoxExt>
-                                        
+
+                                        <sfInput:SfTextBoxExt x:Name="sub" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"  BorderThickness="0" Text="{Binding Appointment.Subject,Mode=OneWay}" FontWeight="ExtraLight" FontSize="23" TextWrapping="Wrap" VerticalAlignment="Center">
+                                            <sfInput:SfTextBoxExt.WatermarkTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="Tiêu đề" Foreground="#666666" FontFamily="Segoe UI"/>
+                                                </DataTemplate>
+                                            </sfInput:SfTextBoxExt.WatermarkTemplate>
+                                        </sfInput:SfTextBoxExt>
+
                                         <!--<StackPanel Grid.Row="11" x:Name="showmorepanel" Grid.RowSpan="10">-->
                                             <!--<TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center" Text="Reminder" Margin="10 2"/>-->
                                             <!--<ComboBox FontFamily="Segoe UI" FontSize="12" SelectedItem="{Binding Appointment.ReminderTime,Mode=OneWay}" x:Name="reminder" Margin="10 2 10 10" Height="25"/>-->
@@ -102,7 +114,8 @@
                                     </Grid>
                                 </ScrollViewer>
                             </Grid>
-                        </Border>
+                            </materialDesign:ColorZone>
+                        <!--</Border>-->
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

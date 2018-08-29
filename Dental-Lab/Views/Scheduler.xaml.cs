@@ -129,7 +129,6 @@ namespace Dental_Lab.Views
         {
             customeEditor.AppType.ItemsSource = Enum.GetValues(typeof(Appointment.AppointmentTypes));
             customeEditor.Doctor.ItemsSource = Enum.GetValues(typeof(Appointment.AppointmentTypes));
-            customeEditor.Client.ItemsSource = Enum.GetValues(typeof(Appointment.AppointmentTypes));
             customeEditor.AppType.SelectedIndex = 0;
             //Schedule.PreviewMouseLeftButtonDown += Schedule_PreviewMouseLeftButtonDown;
             //Schedule.PreviewMouseWheel += Schedule_PreviewMouseWheel;
@@ -418,6 +417,8 @@ namespace Dental_Lab.Views
             Family
         }
 
+        private Clients _client;
+        public Clients Client { get => _client; set  { _client = value; OnPropertyChanged("Client"); } }
 
         #endregion
 
@@ -431,6 +432,16 @@ namespace Dental_Lab.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+    }
+
+    public class Clients
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public Clients()
+        {
+
+        }
     }
 
     #endregion
@@ -469,7 +480,7 @@ namespace Dental_Lab.Views
         public ScrollViewer Scroll;
         public ComboBox AppType;
         public ComboBox Doctor;
-        public ComboBox Client;
+        public TextBox Client;
         //public ComboBox Reminder;
         public Button Delete;
         //public ComboBox AddReminder;
@@ -503,7 +514,7 @@ namespace Dental_Lab.Views
             //AddReminder = GetTemplateChild("addreminder") as ComboBox;
             AppType = GetTemplateChild("apptype") as ComboBox;
             Doctor = GetTemplateChild("doctor") as ComboBox;
-            Client = GetTemplateChild("client") as ComboBox;
+            Client = GetTemplateChild("client") as TextBox;
             Close.Click += Close_Click;
             Save.Click += Save_Click;
             Delete.Click += Delete_Click;
