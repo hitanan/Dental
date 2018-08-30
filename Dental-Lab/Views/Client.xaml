@@ -5,23 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dental_Lab.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1024">
+             d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView
-  ItemsSource="{Binding Items1}">
-  <ListView.View>
-    <GridView>
-      <GridViewColumn
-        DisplayMemberBinding="{Binding Code}"
-        Header="Code" />
-      <GridViewColumn
-        DisplayMemberBinding="{Binding Name}"
-        Header="Name" />
-      <GridViewColumn
-        DisplayMemberBinding="{Binding Description}"
-        Header="Description" />
-    </GridView>
-  </ListView.View>
-</ListView>
+            
     </Grid>
 </UserControl>

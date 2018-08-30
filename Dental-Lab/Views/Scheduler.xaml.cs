@@ -1,4 +1,5 @@
 ﻿using Syncfusion.UI.Xaml.Schedule;
+using Syncfusion.Windows.Controls.Input;
 using Syncfusion.Windows.Shared;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Dental_Lab.Views.Appointment;
 
 namespace Dental_Lab.Views
 { 
@@ -43,12 +45,12 @@ namespace Dental_Lab.Views
 
         #region Properties
 
-        public ScheduleAppointmentCollection AppCollection
-        {
-            get;
-            set;
-        }
-
+        public ScheduleAppointmentCollection AppCollection { get; set;  }
+        public List<MyClient> Clients = new List<MyClient> {
+            new MyClient { Id=0, AppointmentType=Appointment.AppointmentTypes.Office, Name = "Nguyễn Thị Thu" },
+            new MyClient { Id=1, AppointmentType=Appointment.AppointmentTypes.Health, Name = "Trương Văn Đông" },
+            new MyClient { Id=2, AppointmentType=Appointment.AppointmentTypes.Family, Name = "Hà Văn Thắm" }
+        };
         #endregion
 
         #region Constructor
@@ -128,8 +130,9 @@ namespace Dental_Lab.Views
         void Schedule_Loaded(object sender, RoutedEventArgs e)
         {
             customeEditor.AppType.ItemsSource = Enum.GetValues(typeof(Appointment.AppointmentTypes));
-            customeEditor.Doctor.ItemsSource = Enum.GetValues(typeof(Appointment.AppointmentTypes));
             customeEditor.AppType.SelectedIndex = 0;
+            customeEditor.Doctor.ItemsSource = Clients;
+            customeEditor.Client.AutoCompleteSource = Clients;
             //Schedule.PreviewMouseLeftButtonDown += Schedule_PreviewMouseLeftButtonDown;
             //Schedule.PreviewMouseWheel += Schedule_PreviewMouseWheel;
         }
@@ -331,6 +334,7 @@ namespace Dental_Lab.Views
             }
             customeEditor.Subject.Text = SelectedAppointment.Subject;
             customeEditor.Notes.Text = SelectedAppointment.Notes;
+            //customeEditor.Client.Text = AddDataContext.Sample;
             //customeEditor.Location.Text = SelectedAppointment.Location;
         }
 
@@ -370,6 +374,9 @@ namespace Dental_Lab.Views
             customeEditor.Notes.Text = string.Empty;
             //customeEditor.Location.Text = string.Empty;
             customeEditor.DataContext = AddDataContext;
+            
+            //customeEditor.Client.AutoCompleteSource = Clients;
+
         }
         #endregion
 
@@ -408,7 +415,10 @@ namespace Dental_Lab.Views
 
         public string AppointmentTime { get; set; }
 
-        public AppointmentTypes AppointmentType { get; set; }
+        private AppointmentTypes _appointmentType;
+        public AppointmentTypes AppointmentType { get => _appointmentType; set { _appointmentType = value; OnPropertyChanged("AppointmentTypes"); } }
+        //public AppointmentTypes AppointmentType { get; set; }
+        
 
         public enum AppointmentTypes
         {
@@ -417,8 +427,11 @@ namespace Dental_Lab.Views
             Family
         }
 
-        private Clients _client;
-        public Clients Client { get => _client; set  { _client = value; OnPropertyChanged("Client"); } }
+        private MyClient _client;
+        public MyClient Client { get => _client; set  { _client = value; OnPropertyChanged("Client"); } }
+
+        private MyClient _doctor;
+        public MyClient Doctor { get => _doctor; set { _doctor = value; OnPropertyChanged("Doctor"); } }
 
         #endregion
 
@@ -434,14 +447,11 @@ namespace Dental_Lab.Views
         public event PropertyChangedEventHandler PropertyChanged;
     }
 
-    public class Clients
+    public class MyClient
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Clients()
-        {
-
-        }
+        public Appointment.AppointmentTypes AppointmentType;
     }
 
     #endregion
@@ -460,6 +470,7 @@ namespace Dental_Lab.Views
         #endregion
 
         #region Private Members
+        public Scheduler editorPage;
 
         public DatePicker EditStartTimeMonth;
         public DateTimeEdit EditStartTime;
@@ -475,12 +486,11 @@ namespace Dental_Lab.Views
         public Button Close;
         public Button Save;
         public StackPanel ShowMorePanel;
-        public Scheduler editorPage;
         public ComboBox Status;
         public ScrollViewer Scroll;
         public ComboBox AppType;
         public ComboBox Doctor;
-        public TextBox Client;
+        public SfTextBoxExt Client;
         //public ComboBox Reminder;
         public Button Delete;
         //public ComboBox AddReminder;
@@ -514,7 +524,7 @@ namespace Dental_Lab.Views
             //AddReminder = GetTemplateChild("addreminder") as ComboBox;
             AppType = GetTemplateChild("apptype") as ComboBox;
             Doctor = GetTemplateChild("doctor") as ComboBox;
-            Client = GetTemplateChild("client") as TextBox;
+            Client = GetTemplateChild("client") as SfTextBoxExt;
             Close.Click += Close_Click;
             Save.Click += Save_Click;
             Delete.Click += Delete_Click;

@@ -61,12 +61,13 @@
                                             </Button>
                                         </StackPanel>
 
-                                        <TextBlock Grid.Row="1" Foreground="Black" VerticalAlignment="Center" Text="Khách hàng"/>
-                                        <sfInput:SfTextBoxExt  Grid.Row="1" Grid.Column="1" x:Name="client" Height="25"
-                                                  SearchItemPath="Subject"  AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding Appointments}"/>
+                                        <TextBlock Grid.Row="1" Foreground="Black" VerticalAlignment="Center" Text="Client"/>
+                                        <sfInput:SfTextBoxExt  Grid.Row="1" Grid.Column="1" x:Name="client"
+                                                  SearchItemPath="Name" SuggestionMode="ContainsOrdinal" MinimumPrefixCharacters="2" AutoCompleteMode="SuggestAppend"  Height="28"/>
                                         
                                         <TextBlock Grid.Row="2" Foreground="Black" VerticalAlignment="Center" Text="Bác sĩ"/>
-                                        <ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}"  x:Name="doctor" Height="25"/>
+                                        <!--<ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}"-->
+                                        <ComboBox  Grid.Row="2" Grid.Column="1" x:Name="doctor" DisplayMemberPath="Name" SelectedValuePath="AppointmentType" SelectedValue="{Binding Appointment.AppointmentType, Mode=TwoWay}" Height="28"/>
 
                                         <TextBlock Grid.Row="3" Text="Bắt đầu" Margin="0 20" />
                                         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
@@ -85,8 +86,8 @@
                                         <!--<TextBlock Grid.Row="11" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Where" Margin="10 2"/>-->
                                         <!--<sfInput:SfTextBoxExt x:Name="where" FontFamily="Segoe UI" FontSize="12" BorderThickness="0" Foreground="#FF454545" Text="{Binding Appointment.Location,Mode=OneWay}" Grid.Row="12" Margin="10 2 10 10" Height="25"/>-->
 
-                                        <TextBlock Grid.Row="5" Text="Appointment Type" Margin="0 20" />
-                                        <ComboBox Grid.Row="5" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}" x:Name="apptype" Height="25"/>
+                                        <TextBlock Grid.Row="5" Text="{Binding Appointment.AppointmentType, Mode=OneWay}" Margin="0 20" />
+                                        <ComboBox Grid.Row="5" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType, Mode=TwoWay}" x:Name="apptype" Height="25"/>
 
        
                                         <TextBlock Grid.Row="6" Grid.Column="0" Text="Ghi chú"/>
