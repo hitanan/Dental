@@ -3,6 +3,7 @@ using Syncfusion.Windows.Controls.Input;
 using Syncfusion.Windows.Shared;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -14,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -41,6 +43,14 @@ namespace Dental_Lab.Views
          private string _scheduleType;
          public string ScheduleType { get => _scheduleType; set { _scheduleType = value; OnPropertyChanged("ScheduleType"); } }
 
+
+        private string _resource;
+        public string Resource { get => _resource; set { _resource = value; OnPropertyChanged("Resource"); } }
+
+        public ObservableCollection<ResourceType> ResourceCollection { get; set; }
+
+        public static string RESOURCE = "Doctors";
+
         #endregion
 
         #region Properties
@@ -64,10 +74,19 @@ namespace Dental_Lab.Views
             Thread.CurrentThread.CurrentCulture = culture;
 
             ScheduleType = "Week";
-
-
+            Resource = RESOURCE;
 
             AppCollection = new ScheduleAppointmentCollection();
+
+            ResourceCollection = new ObservableCollection<ResourceType>();
+            ResourceType resourceType = new ResourceType { TypeName = RESOURCE };
+            foreach (var item in Clients)
+            {
+                resourceType.ResourceCollection.Add(new Resource { DisplayName = item.Name, ResourceName = item.AppointmentType.ToString() });
+            }
+            ResourceCollection.Add(resourceType);
+
+
             DateTime currentdate = DateTime.Now.Date;
             if (currentdate.DayOfWeek == System.DayOfWeek.Friday || currentdate.DayOfWeek == System.DayOfWeek.Saturday)
                 currentdate = currentdate.SubtractDays(3);
@@ -75,7 +94,7 @@ namespace Dental_Lab.Views
                 currentdate = currentdate.AddDays(3);
             AppCollection.Add(new Appointment()
             {
-                AppointmentImageURI = new BitmapImage(new Uri("pack://application:,,,/Assets/Hospital.png", UriKind.RelativeOrAbsolute)),
+                //AppointmentImageURI = new BitmapImage(new Uri("pack://application:,,,/Assets/Hospital.png", UriKind.RelativeOrAbsolute)),
                 AppointmentType = Appointment.AppointmentTypes.Health,
                 Status = Schedule.AppointmentStatusCollection[0],
                 StartTime = currentdate.AddHours(12),
@@ -83,37 +102,43 @@ namespace Dental_Lab.Views
                 EndTime = currentdate.AddHours(15),
                 Subject = "Checkup",
                 Location = "Chennai",
-                AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 236, 12, 12))
+                AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 236, 12, 12)),
+                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = AppointmentTypes.Health.ToString() } }
             }
            );
             currentdate = currentdate.AddHours(4);
             AppCollection.Add(new Appointment()
             {
-                AppointmentImageURI = new BitmapImage(new Uri("pack://application:,,,/Assets/Cake.png")),
+                //AppointmentImageURI = new BitmapImage(new Uri("pack://application:,,,/Assets/Cake.png")),
                 AppointmentType = Appointment.AppointmentTypes.Family,
                 Status = Schedule.AppointmentStatusCollection[0],
-                StartTime = currentdate.Date.SubtractDays(2).AddHours(1),
-                AppointmentTime = currentdate.Date.SubtractDays(2).AddHours(1).ToString("hh:mm tt"),
-                EndTime = currentdate.Date.SubtractDays(2).AddHours(4),
+                StartTime = currentdate.Date.AddDays(1).AddHours(12),
+                AppointmentTime = currentdate.Date.AddDays(1).AddHours(12).ToString("hh:mm tt"),
+                EndTime = currentdate.Date.AddDays(1).AddHours(15),
                 Subject = "My B'day",
-                AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 180, 31, 125))
+                AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 180, 31, 125)),
+                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = AppointmentTypes.Family.ToString() } }
             }
             );
             AppCollection.Add(new Appointment()
             {
-                AppointmentImageURI = new BitmapImage(new Uri("pack://application:,,,/Assets/Team.png")),
+                //AppointmentImageURI = new BitmapImage(new Uri("pack://application:,,,/Assets/Team.png")),
                 AppointmentType = Appointment.AppointmentTypes.Office,
                 Status = Schedule.AppointmentStatusCollection[0],
                 StartTime = currentdate.Date.AddDays(2).AddHours(9),
                 AppointmentTime = currentdate.Date.AddDays(2).AddHours(9).ToString("hh:mm tt"),
                 EndTime = currentdate.Date.AddDays(2).AddHours(12),
                 Subject = "Meeting",
-                AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 60, 181, 75))
+                AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 60, 181, 75)),
+                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = AppointmentTypes.Office.ToString() } }
             }
             );
 
 
             Schedule.Appointments = AppCollection;
+            Schedule.ScheduleResourceTypeCollection = ResourceCollection;
+
+            //Schedule.Resource  = null;
             DataContext = this;
 
             //PreviewMouseLeftButtonUp += Schedule_PreviewMouseLeftButtonDown;
@@ -132,6 +157,8 @@ namespace Dental_Lab.Views
             customeEditor.AppType.ItemsSource = Enum.GetValues(typeof(Appointment.AppointmentTypes));
             customeEditor.AppType.SelectedIndex = 0;
             customeEditor.Doctor.ItemsSource = Clients;
+            //customeEditor.Doctor.SelectedValuePath = "AppointmentType";
+
             customeEditor.Client.AutoCompleteSource = Clients;
             //Schedule.PreviewMouseLeftButtonDown += Schedule_PreviewMouseLeftButtonDown;
             //Schedule.PreviewMouseWheel += Schedule_PreviewMouseWheel;
@@ -242,13 +269,13 @@ namespace Dental_Lab.Views
                 CurrentSelectedDate = (DateTime)e.CurrentSelectedDate;
             }
 
-            AddDataContext = new BindingClass() { CurrentSelectedDate = e.CurrentSelectedDate, Appointment = e.Appointment };
+            AddDataContext = new BindingClass() { CurrentSelectedDate = e.CurrentSelectedDate, Appointment = e.Appointment, SelectedResource = e.SelectedResource };
         }
 
         void Schedule_AppointmentEditorOpening(object sender, AppointmentEditorOpeningEventArgs e)
         {
             e.Cancel = true;
-            AddDataContext = new BindingClass() { CurrentSelectedDate = e.StartTime, Appointment = e.Appointment };
+            AddDataContext = new BindingClass() { CurrentSelectedDate = e.StartTime, Appointment = e.Appointment, SelectedResource = e.SelectedResource };
             if (e.Appointment != null)
                 EditAppointment();
             else
@@ -275,7 +302,7 @@ namespace Dental_Lab.Views
                 appointment.AppointmentBackground = app.AppointmentBackground;
                 appointment.AppointmentTime = this.CurrentSelectedDate.ToString("hh:mm tt");
                 appointment.AppointmentType = app.AppointmentType;
-                CustomEditor.SetImageForAppointment(appointment);
+                //CustomEditor.SetImageForAppointment(appointment);
                 appointment.StartTime = (DateTime)this.CurrentSelectedDate;
                 appointment.EndTime = ((DateTime)this.CurrentSelectedDate).Add(appTimeDiff);
                 Schedule.Appointments.Add(appointment);
@@ -334,8 +361,12 @@ namespace Dental_Lab.Views
             }
             customeEditor.Subject.Text = SelectedAppointment.Subject;
             customeEditor.Notes.Text = SelectedAppointment.Notes;
-            //customeEditor.Client.Text = AddDataContext.Sample;
-            //customeEditor.Location.Text = SelectedAppointment.Location;
+
+            // Populate the Doctor name by resource
+            if (AddDataContext.SelectedResource.Count > 0)
+            {
+                customeEditor.Doctor.SelectedItem = Clients.Find(e => e.AppointmentType.ToString().Equals((AddDataContext.SelectedResource[0] as Resource).ResourceName));
+            }
         }
 
         private void AddAppointment()
@@ -372,9 +403,13 @@ namespace Dental_Lab.Views
             customeEditor.Delete.Visibility = Visibility.Collapsed;
             customeEditor.Subject.Text = string.Empty;
             customeEditor.Notes.Text = string.Empty;
-            //customeEditor.Location.Text = string.Empty;
             customeEditor.DataContext = AddDataContext;
-            
+
+            // Populate the Doctor name by resource
+            if (AddDataContext.SelectedResource.Count > 0)
+            {
+                customeEditor.Doctor.SelectedItem = Clients.Find(e => e.AppointmentType.ToString().Equals((AddDataContext.SelectedResource[0] as Resource).ResourceName));
+            }
             //customeEditor.Client.AutoCompleteSource = Clients;
 
         }
@@ -402,22 +437,60 @@ namespace Dental_Lab.Views
     public class Appointment : ScheduleAppointment, INotifyPropertyChanged
     {
         #region public properties
-        private ImageSource _imageuri;
-        public ImageSource AppointmentImageURI
+
+        private AppointmentTypes _appointmentType;
+        public AppointmentTypes AppointmentType
         {
-            get { return _imageuri; }
+            get => _appointmentType;
             set
             {
-                _imageuri = value;
-                OnPropertyChanged("AppointmentImageURI");
+                if (_appointmentType != value)
+                {
+                    _appointmentType = value;
+                    OnPropertyChanged("AppointmentImageURI");
+                    OnPropertyChanged("AppointmentType");
+                }
+            }
+        }
+        //public AppointmentTypes AppointmentType { get; set; }
+
+
+        //private ImageSource _imageuri;
+        //public ImageSource AppointmentImageURI
+        //{
+        //    get { return _imageuri; }
+        //    set
+        //    {
+        //        _imageuri = value;
+        //        OnPropertyChanged("AppointmentImageURI");
+        //    }
+        //}
+        //[DependsOn("AppointmentType")]
+        public ImageSource AppointmentImageURI
+        {
+            get {
+                switch (AppointmentType)
+                {
+                    case Appointment.AppointmentTypes.Family:
+                        {
+                            return new BitmapImage(new Uri("pack://application:,,,/Assets/Cake.png"));
+                        }
+                    case Appointment.AppointmentTypes.Health:
+                        {
+                            return new BitmapImage(new Uri("pack://application:,,,/Assets/Hospital.png"));
+                        }
+                    case Appointment.AppointmentTypes.Office:
+                        {
+                            return new BitmapImage(new Uri("pack://application:,,,/Assets/Team.png"));
+                        }
+                    default:
+                        return new BitmapImage(new Uri("pack://application:,,,/Assets/Team.png"));
+                }
+
             }
         }
 
         public string AppointmentTime { get; set; }
-
-        private AppointmentTypes _appointmentType;
-        public AppointmentTypes AppointmentType { get => _appointmentType; set { _appointmentType = value; OnPropertyChanged("AppointmentTypes"); } }
-        //public AppointmentTypes AppointmentType { get; set; }
         
 
         public enum AppointmentTypes
@@ -584,15 +657,19 @@ namespace Dental_Lab.Views
             }
             else
             {
-                appointment.AppointmentType = Appointment.AppointmentTypes.Family;
+                appointment.AppointmentType = Appointment.AppointmentTypes.Office;
             }
-            SetImageForAppointment(appointment);
+
+            appointment.ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = appointment.AppointmentType.ToString() } };
+
+
+            //SetImageForAppointment(appointment);
             if (editorPage.SelectedAppointment == null)
             {
                 editorPage.Schedule.Appointments.Add(appointment);
             }
         }
-
+        /*
         public static void SetImageForAppointment(Appointment appointment)
         {
             switch (appointment.AppointmentType)
@@ -614,7 +691,7 @@ namespace Dental_Lab.Views
                     }
             }
         }
-
+        */
         void Close_Click(object sender, RoutedEventArgs e)
         {
             Visibility = Visibility.Collapsed;
@@ -633,6 +710,7 @@ namespace Dental_Lab.Views
         public DateTime? CurrentSelectedDate { get; set; }
 
         public object Appointment { get; set; }
+        public List<object> SelectedResource { get; set; }
     }
 
     #endregion

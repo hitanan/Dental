@@ -62,12 +62,12 @@
                                         </StackPanel>
 
                                         <TextBlock Grid.Row="1" Foreground="Black" VerticalAlignment="Center" Text="Client"/>
-                                        <sfInput:SfTextBoxExt  Grid.Row="1" Grid.Column="1" x:Name="client"
+                                        <sfInput:SfTextBoxExt  Grid.Row="1" Grid.Column="1" x:Name="client" Padding="0 10 0 0"
                                                   SearchItemPath="Name" SuggestionMode="ContainsOrdinal" MinimumPrefixCharacters="2" AutoCompleteMode="SuggestAppend"  Height="28"/>
                                         
                                         <TextBlock Grid.Row="2" Foreground="Black" VerticalAlignment="Center" Text="Bác sĩ"/>
                                         <!--<ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}"-->
-                                        <ComboBox  Grid.Row="2" Grid.Column="1" x:Name="doctor" DisplayMemberPath="Name" SelectedValuePath="AppointmentType" SelectedValue="{Binding Appointment.AppointmentType, Mode=TwoWay}" Height="28"/>
+                                        <ComboBox  Grid.Row="2" Grid.Column="1" x:Name="doctor" DisplayMemberPath="Name" SelectedItem="{Binding Appointment.Doctor, Mode=TwoWay}" Height="28"/>
 
                                         <TextBlock Grid.Row="3" Text="Bắt đầu" Margin="0 20" />
                                         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
@@ -86,8 +86,8 @@
                                         <!--<TextBlock Grid.Row="11" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Where" Margin="10 2"/>-->
                                         <!--<sfInput:SfTextBoxExt x:Name="where" FontFamily="Segoe UI" FontSize="12" BorderThickness="0" Foreground="#FF454545" Text="{Binding Appointment.Location,Mode=OneWay}" Grid.Row="12" Margin="10 2 10 10" Height="25"/>-->
 
-                                        <TextBlock Grid.Row="5" Text="{Binding Appointment.AppointmentType, Mode=OneWay}" Margin="0 20" />
-                                        <ComboBox Grid.Row="5" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType, Mode=TwoWay}" x:Name="apptype" Height="25"/>
+                                        <TextBlock Grid.Row="5" Text="AppointmentType" Margin="0 20" />
+                                        <ComboBox Grid.Row="5" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType, Mode=TwoWay}" x:Name="apptype" Height="28"/>
 
        
                                         <TextBlock Grid.Row="6" Grid.Column="0" Text="Ghi chú"/>
@@ -129,7 +129,10 @@
                                WorkEndHour="22" 
                                ShowNonWorkingHours="False"
                                FirstDayOfWeek="Monday"
-                               ScheduleType="{Binding ScheduleType}">
+                               ScheduleType="{Binding ScheduleType}"
+                               Resource="{Binding Resource}" 
+                               DayHeaderOrder="OrderByDate" 
+                               >
             <syncfusion:SfSchedule.AppointmentTemplate>
                 <DataTemplate>
                     <Grid>
@@ -144,16 +147,31 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <TextBlock Margin="10,2,0,0" Text="{Binding Subject}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Foreground="White" FontWeight="Normal" FontFamily="Segoe UI"/>
-                            <Image Source="{Binding AppointmentImageURI}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="70" Width="70" />
+                            <Image Source="{Binding AppointmentImageURI, Mode=OneWay}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="70" Width="70" />
                             <TextBlock Text="{Binding AppointmentTime}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="13" Foreground="White" FontWeight="Normal" FontFamily="Segoe UI" TextWrapping="NoWrap"/>
                         </Grid>
                     </Grid>
                 </DataTemplate>
             </syncfusion:SfSchedule.AppointmentTemplate>
+            <!--<syncfusion:SfSchedule.ScheduleResourceTypeCollection >
+                <syncfusion:ResourceType TypeName="Doctors">
+                    <syncfusion:Resource  DisplayName="Dr.Jacob John, M.D " ResourceName="Dr.Jacob"/>
+                    <syncfusion:Resource  DisplayName="Dr.Darsy Jane, M.D" ResourceName="Dr.Darsy"/>
+                </syncfusion:ResourceType>
+            </syncfusion:SfSchedule.ScheduleResourceTypeCollection>-->
         </syncfusion:SfSchedule>
         <local:CustomEditor Grid.Row="2" x:Name="customeEditor" Style="{StaticResource Editor}" shared:SkinStorage.VisualStyle="Metro"/>
         <!--<local:CustomEditor x:Name="customeEditor" Style="{StaticResource Editor}" />-->
         <StackPanel Grid.Row="0" Margin="0,10,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Grid.RowSpan="2">
+            <ToggleButton Style="{StaticResource MaterialDesignActionToggleButton}" ToolTip="Hiển thị theo Bác sĩ" Margin="10 0"
+                 IsChecked="{Binding Path=Resource, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Doctors}">      
+                <ToggleButton.Content>
+                    <materialDesign:PackIcon Kind="AccountOff" />
+                </ToggleButton.Content>
+                <materialDesign:ToggleButtonAssist.OnContent>
+                    <materialDesign:PackIcon Kind="Account" />
+                </materialDesign:ToggleButtonAssist.OnContent>
+            </ToggleButton>
             <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Day" Content="Ngày"  Margin="10 0"
                          IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Day}"/>
             <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Week" Content="Tuần" Margin="10 0"
