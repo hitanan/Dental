@@ -33,6 +33,7 @@ namespace Dental_Lab.Views
     public partial class Scheduler : UserControl, INotifyPropertyChanged
     {
         #region Members
+        public static string RESOURCE = "Doctors";
 
         internal Appointment SelectedAppointment;
         internal BindingClass AddDataContext = null;
@@ -49,7 +50,6 @@ namespace Dental_Lab.Views
 
         public ObservableCollection<ResourceType> ResourceCollection { get; set; }
 
-        public static string RESOURCE = "Doctors";
 
         #endregion
 
@@ -57,9 +57,9 @@ namespace Dental_Lab.Views
 
         public ScheduleAppointmentCollection AppCollection { get; set;  }
         public List<MyClient> Clients = new List<MyClient> {
-            new MyClient { Id=0, AppointmentType=Appointment.AppointmentTypes.Office, Name = "Nguyễn Thị Thu" },
-            new MyClient { Id=1, AppointmentType=Appointment.AppointmentTypes.Health, Name = "Trương Văn Đông" },
-            new MyClient { Id=2, AppointmentType=Appointment.AppointmentTypes.Family, Name = "Hà Văn Thắm" }
+            new MyClient { Id=0, Code="NguyenThiThu", Name = "Nguyễn Thị Thu" },
+            new MyClient { Id=1, Code="TruongVanDong", Name = "Trương Văn Đông" },
+            //new MyClient { Id=2, Code="HaVanTham", Name = "Hà Văn Thắm" }
         };
         #endregion
 
@@ -69,7 +69,7 @@ namespace Dental_Lab.Views
         {
             InitializeComponent();
             customeEditor.DataContext = this;
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("vi-VN");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("vi-VN");
             CultureInfo culture = CultureInfo.CreateSpecificCulture("vi");
             Thread.CurrentThread.CurrentCulture = culture;
 
@@ -78,20 +78,9 @@ namespace Dental_Lab.Views
 
             AppCollection = new ScheduleAppointmentCollection();
 
-            ResourceCollection = new ObservableCollection<ResourceType>();
-            ResourceType resourceType = new ResourceType { TypeName = RESOURCE };
-            foreach (var item in Clients)
-            {
-                resourceType.ResourceCollection.Add(new Resource { DisplayName = item.Name, ResourceName = item.AppointmentType.ToString() });
-            }
-            ResourceCollection.Add(resourceType);
-
-
             DateTime currentdate = DateTime.Now.Date;
-            if (currentdate.DayOfWeek == System.DayOfWeek.Friday || currentdate.DayOfWeek == System.DayOfWeek.Saturday)
+            if (currentdate.DayOfWeek == System.DayOfWeek.Friday || currentdate.DayOfWeek == System.DayOfWeek.Saturday ||currentdate.DayOfWeek == System.DayOfWeek.Sunday )
                 currentdate = currentdate.SubtractDays(3);
-            else if (currentdate.DayOfWeek == System.DayOfWeek.Sunday || currentdate.DayOfWeek == System.DayOfWeek.Monday)
-                currentdate = currentdate.AddDays(3);
             AppCollection.Add(new Appointment()
             {
                 //AppointmentImageURI = new BitmapImage(new Uri("pack://application:,,,/Assets/Hospital.png", UriKind.RelativeOrAbsolute)),
@@ -103,21 +92,21 @@ namespace Dental_Lab.Views
                 Subject = "Checkup",
                 Location = "Chennai",
                 AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 236, 12, 12)),
-                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = AppointmentTypes.Health.ToString() } }
+                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = Clients[0].Code } }
             }
-           );
+            );
             currentdate = currentdate.AddHours(4);
             AppCollection.Add(new Appointment()
             {
                 //AppointmentImageURI = new BitmapImage(new Uri("pack://application:,,,/Assets/Cake.png")),
-                AppointmentType = Appointment.AppointmentTypes.Family,
+                AppointmentType = Appointment.AppointmentTypes.Office,
                 Status = Schedule.AppointmentStatusCollection[0],
                 StartTime = currentdate.Date.AddDays(1).AddHours(12),
                 AppointmentTime = currentdate.Date.AddDays(1).AddHours(12).ToString("hh:mm tt"),
                 EndTime = currentdate.Date.AddDays(1).AddHours(15),
                 Subject = "My B'day",
                 AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 180, 31, 125)),
-                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = AppointmentTypes.Family.ToString() } }
+                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = Clients[1].Code } }
             }
             );
             AppCollection.Add(new Appointment()
@@ -130,12 +119,19 @@ namespace Dental_Lab.Views
                 EndTime = currentdate.Date.AddDays(2).AddHours(12),
                 Subject = "Meeting",
                 AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 60, 181, 75)),
-                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = AppointmentTypes.Office.ToString() } }
+                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = Clients[0].Code } }
             }
             );
-
-
             Schedule.Appointments = AppCollection;
+
+            // Doctor Resources
+            ResourceCollection = new ObservableCollection<ResourceType>();
+            ResourceType resourceType = new ResourceType { TypeName = RESOURCE };
+            foreach (var item in Clients)
+            {
+                resourceType.ResourceCollection.Add(new Resource { DisplayName = item.Name, ResourceName = item.Code });
+            }
+            ResourceCollection.Add(resourceType);
             Schedule.ScheduleResourceTypeCollection = ResourceCollection;
 
             //Schedule.Resource  = null;
@@ -165,6 +161,7 @@ namespace Dental_Lab.Views
         }
 
 
+        #region Reminder And Radical Menu
         /*
         void Schedule_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -261,6 +258,7 @@ namespace Dental_Lab.Views
             }
         }
         */
+        #endregion
 
         void Schedule_PopupMenuOpening(object sender, ContextMenuOpeningEventArgs e)
         {
@@ -354,23 +352,27 @@ namespace Dental_Lab.Views
             customeEditor.Delete.Visibility = Visibility.Visible;
             if (AddDataContext.Appointment != null)
             {
-                customeEditor.EditStartTime.DateTime = (AddDataContext.Appointment as Appointment).StartTime;
-                customeEditor.EditStartTimeMonth.SelectedDate = (AddDataContext.Appointment as Appointment).StartTime;
-                customeEditor.EditEndTime.DateTime = (AddDataContext.Appointment as Appointment).EndTime;
-                customeEditor.EditEndTimeMonth.SelectedDate = (AddDataContext.Appointment as Appointment).EndTime;
+                customeEditor.EditStartTime.DateTime = SelectedAppointment.StartTime;
+                customeEditor.EditStartTimeMonth.SelectedDate = SelectedAppointment.StartTime;
+                customeEditor.EditEndTime.DateTime = SelectedAppointment.EndTime;
+                customeEditor.EditEndTimeMonth.SelectedDate = SelectedAppointment.EndTime;
             }
             customeEditor.Subject.Text = SelectedAppointment.Subject;
             customeEditor.Notes.Text = SelectedAppointment.Notes;
 
             // Populate the Doctor name by resource
-            if (AddDataContext.SelectedResource.Count > 0)
+            //if (AddDataContext.SelectedResource.Count > 0)
+            if (SelectedAppointment.ResourceCollection.Count > 0)
             {
-                customeEditor.Doctor.SelectedItem = Clients.Find(e => e.AppointmentType.ToString().Equals((AddDataContext.SelectedResource[0] as Resource).ResourceName));
+                //customeEditor.Doctor.SelectedItem = Clients.Find(e => e.Code.Equals((AddDataContext.SelectedResource[0] as Resource).ResourceName));
+                customeEditor.Doctor.SelectedItem = Clients.Find(e => e.Code.Equals((SelectedAppointment.ResourceCollection[0] as Resource).ResourceName));
+                //customeEditor.Doctor.IsEnabled = false;
             }
         }
 
         private void AddAppointment()
         {
+            customeEditor.Doctor.IsEnabled = true;
             customeEditor.Visibility = Visibility.Visible;
             Schedule.IsHitTestVisible = false;
             SelectedAppointment = null;
@@ -408,7 +410,7 @@ namespace Dental_Lab.Views
             // Populate the Doctor name by resource
             if (AddDataContext.SelectedResource.Count > 0)
             {
-                customeEditor.Doctor.SelectedItem = Clients.Find(e => e.AppointmentType.ToString().Equals((AddDataContext.SelectedResource[0] as Resource).ResourceName));
+                customeEditor.Doctor.SelectedItem = Clients.Find(e => e.Code.Equals((AddDataContext.SelectedResource[0] as Resource).ResourceName));
             }
             //customeEditor.Client.AutoCompleteSource = Clients;
 
@@ -490,6 +492,14 @@ namespace Dental_Lab.Views
             }
         }
 
+        public string DoctorCollection
+        {
+            get {
+
+                var resource = ResourceCollection[0] as Resource;
+                return resource != null ? resource.ResourceName : null;
+            }
+        }
         public string AppointmentTime { get; set; }
         
 
@@ -504,7 +514,21 @@ namespace Dental_Lab.Views
         public MyClient Client { get => _client; set  { _client = value; OnPropertyChanged("Client"); } }
 
         private MyClient _doctor;
-        public MyClient Doctor { get => _doctor; set { _doctor = value; OnPropertyChanged("Doctor"); } }
+        public MyClient Doctor {
+            get => _doctor;
+            set {
+
+                if (_doctor != value)
+                {
+                    _doctor = value;
+                    OnPropertyChanged("Doctor");
+
+                    ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = Doctor.Code } };
+                    OnPropertyChanged("ResourceCollection");
+                    OnPropertyChanged("DoctorCollection");
+                }
+            }
+        }
 
         #endregion
 
@@ -524,7 +548,7 @@ namespace Dental_Lab.Views
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Appointment.AppointmentTypes AppointmentType;
+        public string Code;
     }
 
     #endregion
@@ -543,7 +567,7 @@ namespace Dental_Lab.Views
         #endregion
 
         #region Private Members
-        public Scheduler editorPage;
+        public Scheduler SchedulerControl;
 
         public DatePicker EditStartTimeMonth;
         public DateTimeEdit EditStartTime;
@@ -574,7 +598,7 @@ namespace Dental_Lab.Views
         #region Override Methods
         public override void OnApplyTemplate()
         {
-            editorPage = (Scheduler)DataContext;
+            SchedulerControl = (Scheduler)DataContext;
             AddStartTimeMonth = GetTemplateChild("addstartmonth") as DatePicker;
             AddStartTime = GetTemplateChild("addstarttime") as DateTimeEdit;
             AddEndTimeMonth = GetTemplateChild("addendmonth") as DatePicker;
@@ -603,7 +627,7 @@ namespace Dental_Lab.Views
             Delete.Click += Delete_Click;
             //AddReminder.ItemsSource = Reminder.ItemsSource = Enum.GetValues(typeof(ReminderTimeType));
             //AddReminder.SelectedIndex = Reminder.SelectedIndex = 0;
-            DataContext = editorPage.AddDataContext;
+            DataContext = SchedulerControl.AddDataContext;
             Visibility = Visibility.Collapsed;
             base.OnApplyTemplate();
         }
@@ -614,19 +638,20 @@ namespace Dental_Lab.Views
         void Delete_Click(object sender, RoutedEventArgs e)
         {
             Visibility = Visibility.Collapsed;
-            editorPage.Schedule.IsHitTestVisible = true;
-            if (editorPage.SelectedAppointment != null)
+            SchedulerControl.Schedule.IsHitTestVisible = true;
+            if (SchedulerControl.SelectedAppointment != null)
             {
-                editorPage.Schedule.Appointments.Remove(editorPage.SelectedAppointment);
+                SchedulerControl.Schedule.Appointments.Remove(SchedulerControl.SelectedAppointment);
             }
         }
 
         void Save_Click(object sender, RoutedEventArgs e)
         {
+            Doctor.IsEnabled = true;
             Visibility = Visibility.Collapsed;
-            editorPage.Schedule.IsHitTestVisible = true;
+            SchedulerControl.Schedule.IsHitTestVisible = true;
             Appointment appointment;
-            if (editorPage.SelectedAppointment == null)
+            if (SchedulerControl.SelectedAppointment == null)
             {
                 appointment = new Appointment();
                 DateTime date = (DateTime)AddStartTime.DateTime;
@@ -639,7 +664,7 @@ namespace Dental_Lab.Views
             }
             else
             {
-                appointment = editorPage.SelectedAppointment;
+                appointment = SchedulerControl.SelectedAppointment;
                 DateTime date = (DateTime)EditStartTime.DateTime;
                 //appointment.ReminderTime = (ReminderTimeType)Reminder.SelectedItem;
                 appointment.StartTime = ((DateTime)EditStartTimeMonth.SelectedDate).Date.Add(new TimeSpan(date.Hour, date.Minute, date.Second));
@@ -660,13 +685,12 @@ namespace Dental_Lab.Views
                 appointment.AppointmentType = Appointment.AppointmentTypes.Office;
             }
 
-            appointment.ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = appointment.AppointmentType.ToString() } };
-
+            appointment.ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = (Doctor.SelectedItem as MyClient).Code } };
 
             //SetImageForAppointment(appointment);
-            if (editorPage.SelectedAppointment == null)
+            if (SchedulerControl.SelectedAppointment == null)
             {
-                editorPage.Schedule.Appointments.Add(appointment);
+                SchedulerControl.Schedule.Appointments.Add(appointment);
             }
         }
         /*
@@ -695,7 +719,7 @@ namespace Dental_Lab.Views
         void Close_Click(object sender, RoutedEventArgs e)
         {
             Visibility = Visibility.Collapsed;
-            editorPage.Schedule.IsHitTestVisible = true;
+            SchedulerControl.Schedule.IsHitTestVisible = true;
         }
 
         #endregion
