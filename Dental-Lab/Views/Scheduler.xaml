@@ -62,10 +62,24 @@
                                         </StackPanel>
 
                                         <TextBlock Grid.Row="1" Foreground="Black" VerticalAlignment="Center" Text="Client"/>
-                                        <sfInput:SfTextBoxExt  Grid.Row="1" Grid.Column="1" x:Name="client" Padding="0 10 0 0"
-                                                  SearchItemPath="Name" SuggestionMode="ContainsOrdinal" MinimumPrefixCharacters="2" AutoCompleteMode="SuggestAppend"  Height="28"/>
+                                        <!--<syncfusion:AutoComplete Grid.Row="1" Grid.Column="0" x:Name="client2"  
+                                                                 DisplayMemberPath="Name" Source="Custom" IsFilter="true" StringMode="IndexBased" 
+                                                                 SelectedItem="{Binding Appointment.Client, Mode=TwoWay}"  Height="28" IsAutoAppend="true"/>-->
+                                        <sfInput:SfTextBoxExt  Grid.Row="1" Grid.Column="1" x:Name="client" Padding="0 5 0 0"  
+                                                  SearchItemPath="Name" SuggestionMode="ContainsOrdinal" MinimumPrefixCharacters="2" AutoCompleteMode="SuggestAppend"  Height="28"
+                                                               FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}">
+                                            <sfInput:SfTextBoxExt.AutoCompleteItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <!--<Image Source="pack://application:,,,/Assets/Cake.png" Margin="2" Stretch="Uniform" Width="12"/>-->
+                                                        <TextBlock Text="{Binding Name}" Margin="5 2"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </sfInput:SfTextBoxExt.AutoCompleteItemTemplate>
+                                        </sfInput:SfTextBoxExt>
                                         
-                                        <TextBlock Grid.Row="2" Foreground="Black" VerticalAlignment="Center" Text="Bác sĩ"/>
+
+                                        <TextBlock Grid.Row="2" Foreground="Black" VerticalAlignment="Center" Text="Doctor"/>
                                         <!--<ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}"-->
                                         <ComboBox  Grid.Row="2" Grid.Column="1" x:Name="doctor" DisplayMemberPath="Name" SelectedItem="{Binding Appointment.Doctor, Mode=TwoWay}" Height="28"/>
 
