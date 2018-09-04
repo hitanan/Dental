@@ -178,7 +178,7 @@
         </Grid>
 
 
-        <Button x:Name="Alert" Content="Button" HorizontalAlignment="Left" Margin="628,19,0,0" VerticalAlignment="Top" Width="76" 
+        <Button x:Name="Alert" Content="Exit" HorizontalAlignment="Left" Margin="628,19,0,0" VerticalAlignment="Top" Width="76" 
                 Command="{Binding CloseCommand}" 
                 CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" />
 

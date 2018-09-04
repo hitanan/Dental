@@ -30,7 +30,7 @@
                         <!--<Border shared:SkinStorage.VisualStyle="Metro" Background="WhiteSmoke" BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Center" VerticalAlignment="Center">-->
                         <materialDesign:ColorZone Mode="Standard" materialDesign:ShadowAssist.ShadowDepth="Depth5"  HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ScrollViewer x:Name="scroll" Background="Transparent" Height="500" Width="500" BorderThickness="0,0,1,0" VerticalScrollBarVisibility="Auto">
+                                <ScrollViewer x:Name="scroll" Background="Transparent" Height="350" Width="400" BorderThickness="0,0,1,0" VerticalScrollBarVisibility="Auto">
                                     <Grid Margin="20 10">
                                         <Grid.RowDefinitions>
                                             <RowDefinition />
@@ -47,9 +47,18 @@
                                             <ColumnDefinition Width="0.3*"/>
                                             <ColumnDefinition Width="0.7*"/>
                                         </Grid.ColumnDefinitions>
-                                        
-                                        <TextBlock Grid.Row="0" FontFamily="Segoe UI" Foreground="#757575" Text="Lịch hẹn" FontSize="24"/>
-                                        <StackPanel  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0 0 -10 20">
+
+                                        <sfInput:SfTextBoxExt x:Name="sub" Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0" Text="{Binding Appointment.Subject,Mode=OneWay}" FontWeight="ExtraLight" FontSize="16" TextWrapping="Wrap" VerticalAlignment="Center">
+                                            <sfInput:SfTextBoxExt.WatermarkTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="Tiêu đề.." Foreground="#666666"/>
+                                                </DataTemplate>
+                                            </sfInput:SfTextBoxExt.WatermarkTemplate>
+                                        </sfInput:SfTextBoxExt>
+                                        <!--<TextBlock Grid.Row="0" FontFamily="Segoe UI" Foreground="#757575" Text="Lịch hẹn" FontSize="24"/>-->
+                                        <StackPanel  Grid.Row="0" Grid.Column="1" 
+                                                     VerticalAlignment="top"
+                                                     HorizontalAlignment="Right" Orientation="Horizontal" Margin="0 0 -10 30">
                                             <Button x:Name="save"  Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Save">
                                                 <materialDesign:PackIcon Kind="ContentSave" Height="24" Width="24" />
                                             </Button>
@@ -65,35 +74,50 @@
                                         <!--<syncfusion:AutoComplete Grid.Row="1" Grid.Column="0" x:Name="client2"  
                                                                  DisplayMemberPath="Name" Source="Custom" IsFilter="true" StringMode="IndexBased" 
                                                                  SelectedItem="{Binding Appointment.Client, Mode=TwoWay}"  Height="28" IsAutoAppend="true"/>-->
-                                        <sfInput:SfTextBoxExt  Grid.Row="1" Grid.Column="1" x:Name="client" Padding="0 5 0 0"  
-                                                  SearchItemPath="Name" SuggestionMode="ContainsOrdinal" MinimumPrefixCharacters="2" AutoCompleteMode="SuggestAppend"  Height="28"
-                                                               FocusManager.FocusedElement="{Binding RelativeSource={RelativeSource Self}}">
-                                            <sfInput:SfTextBoxExt.AutoCompleteItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <!--<Image Source="pack://application:,,,/Assets/Cake.png" Margin="2" Stretch="Uniform" Width="12"/>-->
-                                                        <TextBlock Text="{Binding Name}" Margin="5 2"/>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </sfInput:SfTextBoxExt.AutoCompleteItemTemplate>
-                                        </sfInput:SfTextBoxExt>
-                                        
-
+                                        <Grid Grid.Row="1" Grid.Column="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <sfInput:SfTextBoxExt x:Name="client" Padding="0 5 0 0"  
+                                                  SearchItemPath="Name" SuggestionMode="ContainsOrdinal" MinimumPrefixCharacters="2" AutoCompleteMode="Suggest"  Height="28">
+                                                <sfInput:SfTextBoxExt.AutoCompleteItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Image Source="/Assets/ReminderIcon.png"  Stretch="Uniform" Width="30" Height="30" Margin="10"/>
+                                                            <StackPanel Orientation="Vertical">
+                                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                                                                <TextBlock Text="{Binding Code}" />
+                                                                <TextBlock Text="{Binding Id}" />
+                                                            </StackPanel>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </sfInput:SfTextBoxExt.AutoCompleteItemTemplate>
+                                            </sfInput:SfTextBoxExt>
+                                            <Button x:Name="clearClient" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Xóa" HorizontalAlignment="Right">
+                                                <materialDesign:PackIcon Kind="Close" Height="18" Width="18" Foreground="#666666"/>
+                                            </Button>
+                                        </Grid>
                                         <TextBlock Grid.Row="2" Foreground="Black" VerticalAlignment="Center" Text="Doctor"/>
                                         <!--<ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}"-->
                                         <ComboBox  Grid.Row="2" Grid.Column="1" x:Name="doctor" DisplayMemberPath="Name" SelectedItem="{Binding Appointment.Doctor, Mode=TwoWay}" Height="28"/>
 
-                                        <TextBlock Grid.Row="3" Text="Bắt đầu" Margin="0 20" />
+                                        <TextBlock Grid.Row="3" Text="Ngày" Margin="0 20" />
                                         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
-                                            <DatePicker x:Name="addstartmonth" SelectedDate="{Binding CurrentSelectedDate}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 20 0"/>
-                                            <DatePicker x:Name="editstartmonth" SelectedDate="{Binding Appointment.StartTime}" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"  Margin="0 0 20 0"/>
+                                            <DatePicker x:Name="addstartmonth" SelectedDate="{Binding CurrentSelectedDate}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0"/>
+                                            <DatePicker x:Name="editstartmonth" SelectedDate="{Binding Appointment.StartTime}" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White"  Margin="0 0 0 0"/>
+                                           
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="4" Text="Giờ" Margin="0 5" />
+                                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+                                            <DatePicker x:Name="addendmonth" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0" Visibility="Collapsed"/>
+                                            <DatePicker x:Name="editendmonth" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0" Visibility="Collapsed"/>
+
                                             <shared:DateTimeEdit x:Name="addstarttime" DateTime="{Binding CurrentSelectedDate}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
                                             <shared:DateTimeEdit x:Name="editstarttime" DateTime="{Binding Appointment.StartTime,Mode=OneWay}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
-                                        </StackPanel>
-                                        <TextBlock Grid.Row="4" Text="Kết thúc" Margin="0 20" />
-                                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
-                                            <DatePicker x:Name="addendmonth" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 20 0"/>
-                                            <DatePicker x:Name="editendmonth" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 20 0"/>
+
+                                            <TextBlock Text=" - " Margin="5"/>
+                                            
                                             <shared:DateTimeEdit x:Name="addendtime" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
                                             <shared:DateTimeEdit x:Name="editendtime" DateTime="{Binding Appointment.EndTime}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
                                         </StackPanel>
@@ -104,22 +128,16 @@
                                         <ComboBox Grid.Row="5" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType, Mode=TwoWay}" x:Name="apptype" Height="28"/>
 
        
-                                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Ghi chú"/>
-                                        <sfInput:SfTextBoxExt x:Name="notes" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" BorderThickness="0" Text="{Binding Appointment.Notes}" FontWeight="ExtraLight" TextWrapping="Wrap">
+                                        <!--<TextBlock Grid.Row="6" Grid.Column="0" Text="Ghi chú"/>-->
+                                        <sfInput:SfTextBoxExt x:Name="notes" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0" Text="{Binding Appointment.Notes}" FontWeight="ExtraLight" TextWrapping="Wrap">
                                             <sfInput:SfTextBoxExt.WatermarkTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="Ghi chú" Foreground="#666666" FontFamily="Segoe UI" />
+                                                    <TextBlock Text="Ghi chú" Foreground="#666666" />
                                                 </DataTemplate>
                                             </sfInput:SfTextBoxExt.WatermarkTemplate>
                                         </sfInput:SfTextBoxExt>
 
-                                        <sfInput:SfTextBoxExt x:Name="sub" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"  BorderThickness="0" Text="{Binding Appointment.Subject,Mode=OneWay}" FontWeight="ExtraLight" FontSize="23" TextWrapping="Wrap" VerticalAlignment="Center">
-                                            <sfInput:SfTextBoxExt.WatermarkTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="Tiêu đề" Foreground="#666666" FontFamily="Segoe UI"/>
-                                                </DataTemplate>
-                                            </sfInput:SfTextBoxExt.WatermarkTemplate>
-                                        </sfInput:SfTextBoxExt>
+                                        
 
                                         <!--<StackPanel Grid.Row="11" x:Name="showmorepanel" Grid.RowSpan="10">-->
                                             <!--<TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center" Text="Reminder" Margin="10 2"/>-->

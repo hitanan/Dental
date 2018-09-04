@@ -33,6 +33,7 @@ namespace Dental_Lab.ViewModel
         }
 
         private object _maincontrol = new Scheduler();
+        //private object _maincontrol = new Client();
         public object MainControl { get => _maincontrol; set => SetProperty(ref _maincontrol, value); }
 
         public Dictionary<string, object> OpenedControls = new Dictionary<string, object>();
@@ -61,7 +62,7 @@ namespace Dental_Lab.ViewModel
                             MainControl = new Scheduler();
                             break;
                         case "ItemClient":
-                            MainControl = new MyClient();
+                            MainControl = new Client();
                             break;
                         default:
                             break;
