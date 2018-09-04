@@ -727,7 +727,8 @@ namespace Dental_Lab.Views
             }
             if (Doctor.SelectedItem != null)
             {
-                appointment.ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = (Doctor.SelectedItem as MyClient).Code } };
+                appointment.ResourceCollection = new ObservableCollection<object>();
+                //appointment.ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = (Doctor.SelectedItem as MyClient).Code } };
             }
             MyClient client;
             if (Client.SelectedItem != null)

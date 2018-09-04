@@ -113,13 +113,13 @@
                                             <DatePicker x:Name="addendmonth" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0" Visibility="Collapsed"/>
                                             <DatePicker x:Name="editendmonth" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0" Visibility="Collapsed"/>
 
-                                            <shared:DateTimeEdit x:Name="addstarttime" DateTime="{Binding CurrentSelectedDate}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
-                                            <shared:DateTimeEdit x:Name="editstarttime" DateTime="{Binding Appointment.StartTime,Mode=OneWay}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
+                                            <shared:DateTimeEdit x:Name="addstarttime" DateTime="{Binding CurrentSelectedDate}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25" CultureInfo="vi-VN"/>
+                                            <shared:DateTimeEdit x:Name="editstarttime" DateTime="{Binding Appointment.StartTime,Mode=OneWay}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25" CultureInfo="vi-VN"/>
 
                                             <TextBlock Text=" - " Margin="5"/>
-                                            
-                                            <shared:DateTimeEdit x:Name="addendtime" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
-                                            <shared:DateTimeEdit x:Name="editendtime" DateTime="{Binding Appointment.EndTime}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25"/>
+
+                                            <shared:DateTimeEdit x:Name="addendtime" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25" CultureInfo="vi-VN"/>
+                                            <shared:DateTimeEdit x:Name="editendtime" DateTime="{Binding Appointment.EndTime}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25" CultureInfo="vi-VN"/>
                                         </StackPanel>
                                         <!--<TextBlock Grid.Row="11" FontFamily="Segoe UI" FontSize="12" Foreground="Black" VerticalAlignment="Center"  Text="Where" Margin="10 2"/>-->
                                         <!--<sfInput:SfTextBoxExt x:Name="where" FontFamily="Segoe UI" FontSize="12" BorderThickness="0" Foreground="#FF454545" Text="{Binding Appointment.Location,Mode=OneWay}" Grid.Row="12" Margin="10 2 10 10" Height="25"/>-->
@@ -164,6 +164,7 @@
                                ScheduleType="{Binding ScheduleType}"
                                Resource="{Binding Resource}" 
                                DayHeaderOrder="OrderByDate" 
+                               HeaderDateFormat="dddd dd/MM"
                                >
             <syncfusion:SfSchedule.AppointmentTemplate>
                 <DataTemplate>
