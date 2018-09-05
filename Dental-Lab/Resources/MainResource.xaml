@@ -7,4 +7,5 @@
     <!--<viewmodel:ScheduleViewModel x:Key="ScheduleVM"></viewmodel:ScheduleViewModel>-->
     <cv:MultiValueConverter x:Key="MultiValueParam"></cv:MultiValueConverter>
     <cv:BooleanToStringValueConverter x:Key="BoolToStringConverter"></cv:BooleanToStringValueConverter>
+    <viewmodel:ClientViewModel x:Key="ClientVM"></viewmodel:ClientViewModel>
 </ResourceDictionary>

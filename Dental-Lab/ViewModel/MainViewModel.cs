@@ -62,7 +62,7 @@ namespace Dental_Lab.ViewModel
                             MainControl = new Scheduler();
                             break;
                         case "ItemClient":
-                            MainControl = new Client();
+                            MainControl = new ClientView();
                             break;
                         default:
                             break;

@@ -144,14 +144,14 @@
                         </i:Interaction.Triggers>
                         <ListViewItem x:Name="ItemSchedule" Height="60">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="ViewDashboard" Height="25" Width="25" Margin="10"/>
+                                <materialDesign:PackIcon Kind="CalendarClock" Height="25" Width="25" Margin="10"/>
                                 <TextBlock Text="Lịch Khám" VerticalAlignment="Center" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem x:Name="ItemClient" Height="60">
                             <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="Pencil" Height="25" Width="25" Margin="10"/>
-                                <TextBlock Text="Create" VerticalAlignment="Center" Margin="20 10"/>
+                                <materialDesign:PackIcon Kind="Face" Height="25" Width="25" Margin="10"/>
+                                <TextBlock Text="Khách Hàng" VerticalAlignment="Center" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="60">
