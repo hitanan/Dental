@@ -209,7 +209,7 @@
                 <radialmenu:SfRadialMenu.RenderTransform>
                     <TranslateTransform x:Name="transform2"/>
                 </radialmenu:SfRadialMenu.RenderTransform>
-                <radialmenu:SfRadialMenuItem  Click="addButton_Click" CheckMode="None"   >
+                <radialmenu:SfRadialMenuItem  Click="AddButton_Click" CheckMode="None"   >
                     <radialmenu:SfRadialMenuItem.Header>
                         <Border Background="Transparent" >
                             <StackPanel Margin="10,10,0,0">
@@ -219,7 +219,7 @@
                         </Border>
                     </radialmenu:SfRadialMenuItem.Header>
                 </radialmenu:SfRadialMenuItem>
-                <radialmenu:SfRadialMenuItem  Click="editButton_Click"  CheckMode="None"   >
+                <radialmenu:SfRadialMenuItem  Click="EditButton_Click"  CheckMode="None"   >
                     <radialmenu:SfRadialMenuItem.Header>
                         <Border Background="Transparent" Padding="5">
                             <StackPanel>
@@ -229,7 +229,7 @@
                         </Border>
                     </radialmenu:SfRadialMenuItem.Header>
                 </radialmenu:SfRadialMenuItem>
-                <radialmenu:SfRadialMenuItem Click="copyButton_Click"  CheckMode="None"  >
+                <radialmenu:SfRadialMenuItem Click="CopyButton_Click"  CheckMode="None"  >
                     <radialmenu:SfRadialMenuItem.Header>
                         <Border Background="Transparent" Padding="5">
                             <StackPanel>
@@ -240,7 +240,7 @@
                         </Border>
                     </radialmenu:SfRadialMenuItem.Header>
                 </radialmenu:SfRadialMenuItem>
-                <radialmenu:SfRadialMenuItem   Click="pasteButton_Click" CheckMode="None"  >
+                <radialmenu:SfRadialMenuItem   Click="PasteButton_Click" CheckMode="None"  >
                     <radialmenu:SfRadialMenuItem.Header>
                         <Border Background="Transparent" Padding="5">
                             <StackPanel>
@@ -252,7 +252,7 @@
                     </radialmenu:SfRadialMenuItem.Header>
                 </radialmenu:SfRadialMenuItem>
                 <radialmenu:SfRadialMenuItem/>
-                <radialmenu:SfRadialMenuItem  Click="deleteButton_Click"  CheckMode="None"  >
+                <radialmenu:SfRadialMenuItem  Click="DeleteButton_Click"  CheckMode="None"  >
                     <radialmenu:SfRadialMenuItem.Header>
                         <Border Background="Transparent" Padding="5">
                             <StackPanel>

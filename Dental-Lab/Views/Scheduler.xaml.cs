@@ -291,24 +291,26 @@ namespace Dental_Lab.Views
 
         #region Popup Menu Click Events
 
-        void pasteButton_Click(object sender, RoutedEventArgs e)
+        void PasteButton_Click(object sender, RoutedEventArgs e)
         {
             //RadialPopup.IsOpen = false;
             if (this.copiedAppointment != null)
             {
                 Appointment app = this.copiedAppointment;
                 TimeSpan appTimeDiff = app.EndTime - app.StartTime;
-                Appointment appointment = new Appointment();
-                appointment.Subject = app.Subject;
-                appointment.Notes = app.Notes;
-                appointment.Location = app.Location;
-                appointment.ReadOnly = app.ReadOnly;
-                appointment.AppointmentBackground = app.AppointmentBackground;
-                appointment.AppointmentTime = this.CurrentSelectedDate.ToString("hh:mm tt");
-                appointment.AppointmentType = app.AppointmentType;
-                //CustomEditor.SetImageForAppointment(appointment);
-                appointment.StartTime = (DateTime)this.CurrentSelectedDate;
-                appointment.EndTime = ((DateTime)this.CurrentSelectedDate).Add(appTimeDiff);
+                Appointment appointment = new Appointment
+                {
+                    Subject = app.Subject,
+                    Notes = app.Notes,
+                    Location = app.Location,
+                    ReadOnly = app.ReadOnly,
+                    AppointmentBackground = app.AppointmentBackground,
+                    AppointmentTime = this.CurrentSelectedDate.ToString("hh:mm tt"),
+                    AppointmentType = app.AppointmentType,
+                    StartTime = (DateTime)this.CurrentSelectedDate,
+                    EndTime = ((DateTime)this.CurrentSelectedDate).Add(appTimeDiff)
+                };
+
                 if (AddDataContext.SelectedResource.Count > 0)
                 {
                     appointment.ResourceCollection = new ObservableCollection<object> {
@@ -319,23 +321,23 @@ namespace Dental_Lab.Views
             }
         }
 
-        void copyButton_Click(object sender, RoutedEventArgs e)
+        void CopyButton_Click(object sender, RoutedEventArgs e)
         {
             copiedAppointment = (Appointment)Schedule.SelectedAppointment;
         }
 
-        void deleteButton_Click(object sender, RoutedEventArgs e)
+        void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             if (Schedule.SelectedAppointment != null)
                 Schedule.Appointments.Remove(Schedule.SelectedAppointment);
         }
 
-        void editButton_Click(object sender, RoutedEventArgs e)
+        void EditButton_Click(object sender, RoutedEventArgs e)
         {
             EditAppointment();
         }
 
-        void addButton_Click(object sender, RoutedEventArgs e)
+        void AddButton_Click(object sender, RoutedEventArgs e)
         {
             AddAppointment();
         }
@@ -659,6 +661,7 @@ namespace Dental_Lab.Views
             ClearClient.Click += ClearClient_Click;
             //AddReminder.ItemsSource = Reminder.ItemsSource = Enum.GetValues(typeof(ReminderTimeType));
             //AddReminder.SelectedIndex = Reminder.SelectedIndex = 0;
+            //SchedulerControl.AddDataContext.Appointment = new Appointment();
             DataContext = SchedulerControl.AddDataContext;
             Visibility = Visibility.Collapsed;
 

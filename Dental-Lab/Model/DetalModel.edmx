@@ -5,13 +5,9 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="DentalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Dental.dbo.Client' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="Id" />
-            
-            
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Code" Type="varchar" MaxLength="50" />
@@ -21,36 +17,17 @@ warning 6002: The table/view 'Dental.dbo.Client' does not have a primary key def
           <Property Name="Email" Type="varchar" MaxLength="254" />
           <Property Name="Phone" Type="varchar" MaxLength="15" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Dental.dbo.User' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
-            
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="RoleId" Type="int" />
         </EntityType>
         <EntityContainer Name="DentalModelStoreContainer">
-          <EntitySet Name="Client" EntityType="Self.Client" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Client].[Id] AS [Id], 
-    [Client].[Code] AS [Code], 
-    [Client].[Name] AS [Name], 
-    [Client].[Birthday] AS [Birthday], 
-    [Client].[Address] AS [Address], 
-    [Client].[Email] AS [Email], 
-    [Client].[Phone] AS [Phone]
-    FROM [dbo].[Client] AS [Client]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="User" EntityType="Self.User" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [User].[Id] AS [Id], 
-    [User].[Name] AS [Name], 
-    [User].[RoleId] AS [RoleId]
-    FROM [dbo].[User] AS [User]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
