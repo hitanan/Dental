@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Dental_Lab.ViewModel
@@ -75,7 +76,7 @@ namespace Dental_Lab.ViewModel
                 SelectedItem = null;
             }, (p) => {
                 if (SelectedItem == null)
-                    return true;
+                    return false;
                 var displayList = DataProvider.Ins.DB.Clients.Where(x => x.Email == SelectedItem.Email);
                 if (displayList != null && displayList.Count() != 0)
                     return false;
@@ -129,6 +130,10 @@ namespace Dental_Lab.ViewModel
             AddAppointmentCommand = new RelayCommand<object>((p) =>
             {
                 // sent Id to window
+                Window parentWindow = Application.Current.MainWindow;
+                var mainViewModel = parentWindow.DataContext as MainViewModel;
+                mainViewModel.SetMainControl("ItemSchedule");
+
             }, (p) =>
             {
                 return SelectedItem != null;

@@ -32,6 +32,13 @@ namespace Dental_Lab.ViewModel
             set => SetProperty(ref _MenuSelected, value);
         }
 
+
+        private int _ListViewMenuIndex;
+        public int ListViewMenuIndex
+        {
+            get => this._ListViewMenuIndex;
+            set => SetProperty(ref this._ListViewMenuIndex, value);
+        }
         private object _maincontrol = new Scheduler();
         //private object _maincontrol = new Client();
         public object MainControl { get => _maincontrol; set => SetProperty(ref _maincontrol, value); }
@@ -39,6 +46,7 @@ namespace Dental_Lab.ViewModel
         public Dictionary<string, object> OpenedControls = new Dictionary<string, object>();
         public MainViewModel()
         {
+            ListViewMenuIndex = 0;
             CloseCommand = new RelayCommand<Window>(w => w.Close());
             ToggleCommand = new RelayCommand<Window>(w => ToggleMenuAction(w));
             ToggleMenuItemCommand = new RelayCommand<object>(obj =>
@@ -56,17 +64,7 @@ namespace Dental_Lab.ViewModel
                 }
                 else
                 {
-                    switch (SelectedItem.Name)
-                    {
-                        case "ItemSchedule":
-                            MainControl = new Scheduler();
-                            break;
-                        case "ItemClient":
-                            MainControl = new ClientView();
-                            break;
-                        default:
-                            break;
-                    }
+                    SetMainControl(SelectedItem.Name);
                     OpenedControls.Add(SelectedItem.Name, MainControl);
                 }
 
@@ -76,6 +74,23 @@ namespace Dental_Lab.ViewModel
         {
             var sb = (Storyboard)w.FindResource(ToggleIsCheched ? "OpenMenu" : "CloseMenu");
             sb.Begin();
+        }
+
+        public void SetMainControl(string controlName)
+        {
+            switch (controlName)
+            {
+                case "ItemSchedule":
+                    MainControl = new Scheduler();
+                    ListViewMenuIndex = 0;
+                    break;
+                case "ItemClient":
+                    MainControl = new ClientView();
+                    ListViewMenuIndex = 1;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

@@ -129,7 +129,7 @@
                     <DropShadowEffect BlurRadius="2" ShadowDepth="1" Color="#FFAEAEAE"/>
                 </Grid.Effect>
                 <StackPanel>
-                    <ListView x:Name="ListViewMenu" SelectedIndex="0" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView x:Name="ListViewMenu" SelectedIndex="{Binding ListViewMenuIndex, Mode=TwoWay}" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding ToggleMenuItemCommand}">
