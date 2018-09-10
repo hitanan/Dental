@@ -57,6 +57,7 @@ namespace Dental_Lab.ViewModel
 
         public ICommand AddCommand { get; set; }
         public ICommand EditCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
         public ICommand AddAppointmentCommand { get; set; }
 
         public ClientViewModel()
@@ -65,12 +66,21 @@ namespace Dental_Lab.ViewModel
 
             AddCommand = new RelayCommand<object>((p) =>
             {
-                var Client = new Client() { Name = Name, Phone = Phone, Address = Address, Email = Email, Birthday = Birthday};
+                var Client = new Client() { Name = Name, Phone = Phone, Address = Address, Email = Email, Birthday = Birthday };
 
                 DataProvider.Ins.DB.Clients.Add(Client);
                 DataProvider.Ins.DB.SaveChanges();
 
                 List.Add(Client);
+                SelectedItem = null;
+            }, (p) => {
+                if (SelectedItem == null)
+                    return true;
+                var displayList = DataProvider.Ins.DB.Clients.Where(x => x.Email == SelectedItem.Email);
+                if (displayList != null && displayList.Count() != 0)
+                    return false;
+
+                return true;
             });
 
             EditCommand = new RelayCommand<object>((p) =>
@@ -84,6 +94,8 @@ namespace Dental_Lab.ViewModel
                 DataProvider.Ins.DB.SaveChanges();
 
                 SelectedItem.Name = Name;
+
+                SelectedItem = null;
             }, (p) =>
             {
                 if (SelectedItem == null)
@@ -95,6 +107,23 @@ namespace Dental_Lab.ViewModel
 
                 return false;
 
+            });
+            DeleteCommand = new RelayCommand<object>((p) =>
+            {
+                //var Client = DataProvider.Ins.DB.Clients.Where(x => x.Id == SelectedItem.Id).SingleOrDefault();
+                //Client.Name = Name;
+                //Client.Phone = Phone;
+                //Client.Address = Address;
+                //Client.Email = Email;
+                //Client.Birthday = Birthday;
+                //DataProvider.Ins.DB.SaveChanges();
+
+                //SelectedItem.Name = Name
+
+                SelectedItem = null;
+            }, (p) =>
+            {
+                return SelectedItem != null;
             });
 
             AddAppointmentCommand = new RelayCommand<object>((p) =>

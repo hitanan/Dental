@@ -163,7 +163,7 @@
                                ShowNonWorkingHours="False"
                                FirstDayOfWeek="Monday"
                                ScheduleType="{Binding ScheduleType}"
-                               Resource="{Binding Resource}" 
+                               Resource="{Binding ScheduleResource}" 
                                DayHeaderOrder="OrderByDate" 
                                HeaderDateFormat="dddd dd/MM"
                                >
@@ -269,7 +269,7 @@
         <!--<local:CustomEditor x:Name="customeEditor" Style="{StaticResource Editor}" />-->
         <StackPanel Grid.Row="0" Margin="0,10,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" Grid.RowSpan="2">
             <ToggleButton Style="{StaticResource MaterialDesignActionToggleButton}" ToolTip="Hiển thị theo Bác sĩ" Margin="10 0"
-                 IsChecked="{Binding Path=Resource, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Doctors}">      
+                 IsChecked="{Binding Path=ScheduleResource, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Doctors}">      
                 <ToggleButton.Content>
                     <materialDesign:PackIcon Kind="AccountOff" />
                 </ToggleButton.Content>

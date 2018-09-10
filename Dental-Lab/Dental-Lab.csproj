@@ -118,6 +118,9 @@
     </ApplicationDefinition>
     <Compile Include="Converters\BooleanToStringValueConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
+    <Compile Include="Model\Appointment.cs">
+      <DependentUpon>DetalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Client.cs">
       <DependentUpon>DetalModel.tt</DependentUpon>
     </Compile>
@@ -140,6 +143,10 @@
     <Compile Include="Model\User.cs">
       <DependentUpon>DetalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\UserRole.cs">
+      <DependentUpon>DetalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomAutocomplete.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -221,7 +228,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UserControl\" />
+  </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>

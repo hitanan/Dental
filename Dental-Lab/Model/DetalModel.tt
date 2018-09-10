@@ -63,7 +63,9 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 
 <#
     }
-
+#>
+    <#=codeStringGenerator.AddictionProperties()#>
+<#
     var simpleProperties = typeMapper.GetSimpleProperties(entity);
     if (simpleProperties.Any())
     {
@@ -149,7 +151,9 @@ foreach (var complex in typeMapper.GetItemsToGenerate<ComplexType>(itemCollectio
 
 <#
     }
-
+#>
+    <#=codeStringGenerator.AddictionProperties()#>
+<#
     var simpleProperties = typeMapper.GetSimpleProperties(complex);
     if (simpleProperties.Any())
     {
@@ -293,6 +297,11 @@ public class CodeStringGenerator
             _code.SpaceAfter(Accessibility.ForSetter(edmProperty)));
     }
 
+	public string AddictionProperties()
+    {
+        return "public event PropertyChangedEventHandler PropertyChanged;";
+    }
+
     public string NavigationProperty(NavigationProperty navProp)
     {
         var endType = _typeMapper.GetTypeName(navProp.ToEndMember.GetEntityType());
@@ -315,11 +324,13 @@ public class CodeStringGenerator
     {
         return string.Format(
             CultureInfo.InvariantCulture,
-            "{0} {1}partial class {2}{3}",
+            "{0} {1}partial class {2}{3}{4}",
             Accessibility.ForType(entity),
             _code.SpaceAfter(_code.AbstractOption(entity)),
             _code.Escape(entity),
-            _code.StringBefore(" : ", _typeMapper.GetTypeName(entity.BaseType)));
+            _code.StringBefore(" : ", _typeMapper.GetTypeName(entity.BaseType)),
+            String.IsNullOrEmpty(_typeMapper.GetTypeName(entity.BaseType)) ? " : INotifyPropertyChanged" : ",INotifyPropertyChanged"
+        );
     }
     
     public string EnumOpening(SimpleType enumType)
@@ -425,7 +436,7 @@ public class CodeStringGenerator
         return inHeader == string.IsNullOrEmpty(_code.VsNamespaceSuggestion())
             ? string.Format(
                 CultureInfo.InvariantCulture,
-                "{0}using System;{1}" +
+                "{0}using System;using System.ComponentModel;using PropertyChanged;{1}" +
                 "{2}",
                 inHeader ? Environment.NewLine : "",
                 includeCollections ? (Environment.NewLine + "using System.Collections.Generic;") : "",

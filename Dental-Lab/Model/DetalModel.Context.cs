@@ -27,5 +27,7 @@ namespace Dental_Lab.Model
     
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Appointment> Appointments { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
     }
 }
