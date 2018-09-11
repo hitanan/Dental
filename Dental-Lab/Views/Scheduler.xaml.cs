@@ -1,4 +1,5 @@
 ﻿using Dental_Lab.Model;
+using Dental_Lab.ViewModel;
 using Syncfusion.UI.Xaml.Schedule;
 using Syncfusion.Windows.Controls.Input;
 using Syncfusion.Windows.Controls.Navigation;
@@ -38,6 +39,7 @@ namespace Dental_Lab.Views
         public static string RESOURCE = "Doctors";
 
         internal Appointment SelectedAppointment;
+        internal Client SelectedClient;
         internal BindingClass AddDataContext = null;
         Appointment copiedAppointment;
         DateTime CurrentSelectedDate;
@@ -132,7 +134,10 @@ namespace Dental_Lab.Views
 
         }
 
-
+        public void SelectClient(Client client)
+        {
+            SelectedClient = client;
+        }
         #endregion
 
         #region Events
@@ -357,7 +362,7 @@ namespace Dental_Lab.Views
             }
 
             customeEditor.ClientText.SelectedItem = SelectedAppointment.Client;
-            customeEditor.ClearClient.Visibility = customeEditor.ClientText.SelectedItem != null ? Visibility.Visible : Visibility.Collapsed;
+            customeEditor.ClearClient.Visibility = customeEditor.ViewClient.Visibility = customeEditor.ClientText.SelectedItem != null ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void AddAppointment()
@@ -409,8 +414,8 @@ namespace Dental_Lab.Views
                 customeEditor.Doctor.SelectedItem = Doctors.FirstOrDefault(e => e.UserName.Equals((AddDataContext.SelectedResource[0] as Resource).ResourceName));
             }
 
-            customeEditor.ClientText.SelectedItem = null;
-            customeEditor.ClearClient.Visibility = Visibility.Collapsed;
+            customeEditor.ClientText.SelectedItem = SelectedClient;
+            customeEditor.ClearClient.Visibility = customeEditor.ViewClient.Visibility = customeEditor.ClientText.SelectedItem != null ? Visibility.Visible : Visibility.Collapsed;
         }
         #endregion
 
@@ -594,6 +599,7 @@ namespace Dental_Lab.Views
         //public ComboBox Reminder;
         public Button Delete;
         public Button ClearClient;
+        public Button ViewClient;
         //public ComboBox AddReminder;
         public ComboBox AddStatus;
 
@@ -627,11 +633,13 @@ namespace Dental_Lab.Views
             Doctor = GetTemplateChild("doctor") as ComboBox;
             ClientText = GetTemplateChild("client") as SfTextBoxExt;
             ClearClient = GetTemplateChild("clearClient") as Button;
+            ViewClient = GetTemplateChild("viewClient") as Button;
             //Client2 = GetTemplateChild("client2") as AutoComplete;
             Close.Click += Close_Click;
             Save.Click += Save_Click;
             Delete.Click += Delete_Click;
             ClearClient.Click += ClearClient_Click;
+            ViewClient.Click += ViewClient_Click;
             //AddReminder.ItemsSource = Reminder.ItemsSource = Enum.GetValues(typeof(ReminderTimeType));
             //AddReminder.SelectedIndex = Reminder.SelectedIndex = 0;
             //SchedulerControl.AddDataContext.Appointment = new Appointment();
@@ -646,13 +654,20 @@ namespace Dental_Lab.Views
         private void ClearClient_Click(object sender, RoutedEventArgs e)
         {
             ClientText.SelectedItem = null;
+            SchedulerControl.SelectedClient = null;
             ClientText.Focus();
+        }
+        private void ViewClient_Click(object sender, RoutedEventArgs e)
+        {
+            Window parentWindow = Application.Current.MainWindow;
+            var mainViewModel = parentWindow.DataContext as MainViewModel;
+            mainViewModel.SetMainControl(ViewModel.Menu.ItemClient, ClientText.SelectedItem, false);
         }
 
         private void Client_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ClientText.IsEnabled = e.NewValue == null;
-            ClearClient.Visibility = e.NewValue == null ? Visibility.Collapsed : Visibility.Visible;
+            ClearClient.Visibility = ViewClient.Visibility = e.NewValue == null ? Visibility.Collapsed : Visibility.Visible;
         }
         #endregion
 
@@ -671,6 +686,8 @@ namespace Dental_Lab.Views
 
         void Save_Click(object sender, RoutedEventArgs e)
         {
+            SchedulerControl.SelectedClient = null;
+
             Doctor.IsEnabled = true;
             
             Visibility = Visibility.Collapsed;

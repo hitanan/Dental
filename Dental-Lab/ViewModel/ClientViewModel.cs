@@ -24,36 +24,39 @@ namespace Dental_Lab.ViewModel
             {
                 _SelectedItem = value;
                 OnPropertyChanged();
-                if (SelectedItem != null)
-                {
-                    Name = SelectedItem.Name;
-                    Phone = SelectedItem.Phone;
-                    Email = SelectedItem.Email;
-                    Address = SelectedItem.Address;
-                    Birthday = SelectedItem.Birthday;
-                }
+                //if (SelectedItem != null)
+                //{
+                //    Name = SelectedItem.Name;
+                //    Phone = SelectedItem.Phone;
+                //    Email = SelectedItem.Email;
+                //    Address = SelectedItem.Address;
+                //    Birthday = SelectedItem.Birthday;
+                //} else
+                //{
+                //    Reset();
+                //}
             }
         }
 
-        private string _Name;
-        public string Name { get => _Name; set { _Name = value; OnPropertyChanged(); } }
+        //private string _Name;
+        //public string Name { get => _Name; set { _Name = value; OnPropertyChanged(); } }
 
 
-        private string _Phone;
-        public string Phone { get => _Phone; set { _Phone = value; OnPropertyChanged(); } }
+        //private string _Phone;
+        //public string Phone { get => _Phone; set { _Phone = value; OnPropertyChanged(); } }
 
 
-        private string _Address;
-        public string Address { get => _Address; set { _Address = value; OnPropertyChanged(); } }
+        //private string _Address;
+        //public string Address { get => _Address; set { _Address = value; OnPropertyChanged(); } }
 
 
-        private string _Email;
-        public string Email { get => _Email; set { _Email = value; OnPropertyChanged(); } }
+        //private string _Email;
+        //public string Email { get => _Email; set { _Email = value; OnPropertyChanged(); } }
 
 
 
-        private DateTime _Birthday;
-        public DateTime Birthday { get => _Birthday; set { _Birthday = value; OnPropertyChanged(); } }
+        //private DateTime? _Birthday;
+        //public DateTime? Birthday { get => _Birthday; set { _Birthday = value; OnPropertyChanged(); } }
 
 
         public ICommand AddCommand { get; set; }
@@ -64,80 +67,67 @@ namespace Dental_Lab.ViewModel
         public ClientViewModel()
         {
             List = new ObservableCollection<Client>(DataProvider.Ins.DB.Clients);
-
+            Reset();
             AddCommand = new RelayCommand<object>((p) =>
             {
-                var Client = new Client() { Name = Name, Phone = Phone, Address = Address, Email = Email, Birthday = Birthday };
-
-                DataProvider.Ins.DB.Clients.Add(Client);
-                DataProvider.Ins.DB.SaveChanges();
-
-                List.Add(Client);
-                SelectedItem = null;
-            }, (p) => {
-                if (SelectedItem == null)
-                    return false;
-                var displayList = DataProvider.Ins.DB.Clients.Where(x => x.Email == SelectedItem.Email);
-                if (displayList != null && displayList.Count() != 0)
-                    return false;
-
-                return true;
+                //var Client = new Client() { Name = Name, Phone = Phone, Address = Address, Email = Email, Birthday = Birthday };
+                //DataProvider.Ins.DB.Clients.Add(Client);
+                //DataProvider.Ins.DB.SaveChanges();
+                //List.Add(Client);
+                Reset();
             });
 
             EditCommand = new RelayCommand<object>((p) =>
             {
-                var Client = DataProvider.Ins.DB.Clients.Where(x => x.Id == SelectedItem.Id).SingleOrDefault();
-                Client.Name = Name;
-                Client.Phone = Phone;
-                Client.Address = Address;
-                Client.Email = Email;
-                Client.Birthday = Birthday;
-                DataProvider.Ins.DB.SaveChanges();
-
-                SelectedItem.Name = Name;
-
-                SelectedItem = null;
+                if (SelectedItem.Id == 0)
+                {
+                    DataProvider.Ins.DB.Clients.Add(SelectedItem);
+                    DataProvider.Ins.DB.SaveChanges();
+                    List.Add(SelectedItem);
+                } 
+                else
+                {
+                    //var Client = DataProvider.Ins.DB.Clients.Where(x => x.Id == SelectedItem.Id).SingleOrDefault();
+                    //Client.Name = SelectedItem.Name;
+                    //Client.Phone = SelectedItem.Phone;
+                    //Client.Address = SelectedItem.Address;
+                    //Client.Email = SelectedItem.Email;
+                    //Client.Birthday = SelectedItem.Birthday;
+                    DataProvider.Ins.DB.SaveChanges();
+                }
+                //Reset();
             }, (p) =>
             {
-                if (SelectedItem == null)
-                    return false;
+                // If add
+                if (SelectedItem.Id == 0)
+                {
+                    var emails = DataProvider.Ins.DB.Clients.Where(x => x.Email.Equals(SelectedItem.Email));
+                    if (emails.Count() > 0 )
+                        return false;
+                } // If edit
+                else  if (String.IsNullOrEmpty(SelectedItem.Name))
+                     return false;
 
-                var displayList = DataProvider.Ins.DB.Clients.Where(x => x.Id == SelectedItem.Id);
-                if (displayList != null && displayList.Count() != 0)
-                    return true;
-
-                return false;
+                return true;
 
             });
-            DeleteCommand = new RelayCommand<object>((p) =>
-            {
-                //var Client = DataProvider.Ins.DB.Clients.Where(x => x.Id == SelectedItem.Id).SingleOrDefault();
-                //Client.Name = Name;
-                //Client.Phone = Phone;
-                //Client.Address = Address;
-                //Client.Email = Email;
-                //Client.Birthday = Birthday;
-                //DataProvider.Ins.DB.SaveChanges();
-
-                //SelectedItem.Name = Name
-
-                SelectedItem = null;
-            }, (p) =>
-            {
-                return SelectedItem != null;
-            });
+            DeleteCommand = new RelayCommand<object>((p) => Reset(), (p) => SelectedItem.Id > 0);
 
             AddAppointmentCommand = new RelayCommand<object>((p) =>
             {
                 // sent Id to window
                 Window parentWindow = Application.Current.MainWindow;
                 var mainViewModel = parentWindow.DataContext as MainViewModel;
-                mainViewModel.SetMainControl("ItemSchedule");
+                //mainViewModel.SetMainControl("ItemSchedule", true);
+                mainViewModel.SetMainControl(Menu.ItemSchedule, SelectedItem, false);
 
-            }, (p) =>
-            {
-                return SelectedItem != null;
-            });
+            }, (p) => SelectedItem.Id > 0);
         }
+
+        private void Reset()
+        {
+            SelectedItem = new Client();
+        }
+
     }
 }

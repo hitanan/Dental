@@ -95,9 +95,14 @@
                                                     </DataTemplate>
                                                 </sfInput:SfTextBoxExt.AutoCompleteItemTemplate>
                                             </sfInput:SfTextBoxExt>
-                                            <Button x:Name="clearClient" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Xóa" HorizontalAlignment="Right">
-                                                <materialDesign:PackIcon Kind="Close" Height="18" Width="18" Foreground="#666666"/>
-                                            </Button>
+                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                                <Button x:Name="clearClient" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Xóa" >
+                                                    <materialDesign:PackIcon Kind="Close" Height="18" Width="18" Foreground="#666666"/>
+                                                </Button>
+                                                <Button x:Name="viewClient" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Xem thông tin" >
+                                                    <materialDesign:PackIcon Kind="AccountCardDetails" Height="18" Width="18" Foreground="#666666"/>
+                                                </Button>
+                                            </StackPanel>
                                         </Grid>
                                         <TextBlock Grid.Row="2" Foreground="Black" VerticalAlignment="Center" Text="Doctor"/>
                                         <!--<ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}"-->

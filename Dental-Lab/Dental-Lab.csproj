@@ -146,6 +146,7 @@
     <Compile Include="Model\UserRole.cs">
       <DependentUpon>DetalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Utility\Util.cs" />
     <Compile Include="Views\CustomAutocomplete.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\ClientViewModel.cs" />

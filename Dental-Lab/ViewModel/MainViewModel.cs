@@ -10,9 +10,13 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Globalization;
+using Dental_Lab.Model;
+using Dental_Lab.Utility;
 
 namespace Dental_Lab.ViewModel
 {
+
+    public enum Menu { ItemSchedule, ItemClient };
     class MainViewModel : BaseViewModel
     {
         public ICommand CloseCommand { get; set; }
@@ -56,17 +60,16 @@ namespace Dental_Lab.ViewModel
                 var window = (Window)values[0];
                 var SelectedItem = (ListViewItem)values[1];
 
-                //ToggleIsCheched = !ToggleIsCheched;
-                //ToggleMenuAction(window);
-                if (OpenedControls.ContainsKey(SelectedItem.Name))
-                {
-                    MainControl = OpenedControls[SelectedItem.Name];
-                }
-                else
-                {
-                    SetMainControl(SelectedItem.Name);
-                    OpenedControls.Add(SelectedItem.Name, MainControl);
-                }
+                //if (OpenedControls.ContainsKey(SelectedItem.Name))
+                //{
+                //    MainControl = OpenedControls[SelectedItem.Name];
+                //}
+                //else
+                //{
+                //    SetMainControl(SelectedItem.Name);
+                //    OpenedControls.Add(SelectedItem.Name, MainControl);
+                //}
+                SetMainControl(SelectedItem.Name);
 
             });
         }
@@ -76,21 +79,75 @@ namespace Dental_Lab.ViewModel
             sb.Begin();
         }
 
-        public void SetMainControl(string controlName)
+
+        public void SetMainControl(Menu menu, object item = null, bool updateMenu = false)
         {
-            switch (controlName)
+            SetMainControl(Enum.GetName(typeof(Menu), menu), item, updateMenu);
+            
+        }
+        public void SetMainControl(string controlName, object item = null,bool updateMenu = false)
+        {
+            if (controlName.IsMenu(Menu.ItemSchedule))
             {
-                case "ItemSchedule":
-                    MainControl = new Scheduler();
-                    ListViewMenuIndex = 0;
-                    break;
-                case "ItemClient":
-                    MainControl = new ClientView();
-                    ListViewMenuIndex = 1;
-                    break;
-                default:
-                    break;
+                if (updateMenu)
+                {
+                    ListViewMenuIndex = (int)Menu.ItemSchedule;
+                }
+                Scheduler scheduler;
+                if (OpenedControls.ContainsKey(controlName))
+                {
+                    scheduler = OpenedControls[controlName] as Scheduler;
+                }
+                else
+                {
+                    OpenedControls[controlName] = scheduler = new Scheduler();
+                }
+
+                scheduler.SelectClient(item as Client);
+                MainControl = scheduler;
+ 
             }
+            else if (controlName.IsMenu(Menu.ItemClient))
+            {
+                if (updateMenu)
+                {
+                    ListViewMenuIndex = (int)Menu.ItemClient;
+                }
+                ClientView clientView;
+                if (OpenedControls.ContainsKey(controlName))
+                {
+                    clientView = OpenedControls[controlName] as ClientView;
+
+                } else
+                {
+                    OpenedControls[controlName] = clientView = new ClientView();
+                }
+                var clientViewModel = clientView.DataContext as ClientViewModel;
+                clientViewModel.SelectedItem = item as Client ?? new Client();
+                clientView.DataContext = clientViewModel;
+                MainControl = clientView;
+ 
+            }
+        }
+
+        public void SetScheduleClient2(Client selectedItem)
+        {
+            var ItemSchedule = "ItemSchedule";
+            Scheduler scheduler;
+            if (OpenedControls.ContainsKey(ItemSchedule))
+            {
+                scheduler = OpenedControls[ItemSchedule] as Scheduler;
+                scheduler.SelectClient(selectedItem);
+                //SetMainControl(ItemSchedule, true);
+            } else
+            {
+                scheduler = new Scheduler();
+                OpenedControls.Add(ItemSchedule, scheduler);
+
+                scheduler.SelectClient(selectedItem);
+            }
+            MainControl = scheduler;
+            ListViewMenuIndex = 0;
         }
     }
 
