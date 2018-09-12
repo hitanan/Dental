@@ -137,7 +137,7 @@ namespace Dental_Lab.Views
         public void SelectClient(Client client)
         {
             SelectedClient = client;
-            if (customeEditor != null && customeEditor.ClientText != null && AddDataContext.Appointment == null) {
+            if (customeEditor != null && customeEditor.ClientText != null && AddDataContext != null && AddDataContext.Appointment == null) {
                 customeEditor.ClientText.SelectedItem = SelectedClient;
             }
         }

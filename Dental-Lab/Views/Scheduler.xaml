@@ -276,19 +276,19 @@
             <ToggleButton Style="{StaticResource MaterialDesignActionToggleButton}" ToolTip="Hiển thị theo Bác sĩ" Margin="10 0"
                  IsChecked="{Binding Path=ScheduleResource, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Doctors}">      
                 <ToggleButton.Content>
-                    <materialDesign:PackIcon Kind="AccountOff" />
+                    <materialDesign:PackIcon Kind="Account" />
                 </ToggleButton.Content>
                 <materialDesign:ToggleButtonAssist.OnContent>
-                    <materialDesign:PackIcon Kind="Account" />
+                    <materialDesign:PackIcon Kind="AccountOff" />
                 </materialDesign:ToggleButtonAssist.OnContent>
             </ToggleButton>
-            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Day" Content="Ngày"  Margin="10 0"
+            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Day" Content="Ngày"  Margin="10 0" ToolTip="Lịch Ngày" 
                          IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Day}"/>
-            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Week" Content="Tuần" Margin="10 0"
+            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Week" Content="Tuần" Margin="10 0" ToolTip="Lịch Tuần" 
                          IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Week}"/>
-            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Month" Content="Tháng" Margin="10 0"
+            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Month" Content="Tháng" Margin="10 0" ToolTip="Lịch Tháng" 
                          IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=Month}"/>
-            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Timeline" Content="TimeLine" Margin="10 0 0 0"
+            <RadioButton Style="{StaticResource MaterialDesignRaisedLightButton}" x:Name="Timeline" Content="TimeLine" Margin="10 0 0 0" ToolTip="Lịch TimeLine" 
                          IsChecked="{Binding Path=ScheduleType, Mode=TwoWay, Converter={StaticResource BoolToStringConverter}, ConverterParameter=TimeLine}"/>
         </StackPanel>
 

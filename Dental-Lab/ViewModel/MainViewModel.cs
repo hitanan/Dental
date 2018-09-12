@@ -133,25 +133,6 @@ namespace Dental_Lab.ViewModel
             }
         }
 
-        public void SetScheduleClient2(Client selectedItem)
-        {
-            var ItemSchedule = "ItemSchedule";
-            Scheduler scheduler;
-            if (OpenedControls.ContainsKey(ItemSchedule))
-            {
-                scheduler = OpenedControls[ItemSchedule] as Scheduler;
-                scheduler.SelectClient(selectedItem);
-                //SetMainControl(ItemSchedule, true);
-            } else
-            {
-                scheduler = new Scheduler();
-                OpenedControls.Add(ItemSchedule, scheduler);
-
-                scheduler.SelectClient(selectedItem);
-            }
-            MainControl = scheduler;
-            ListViewMenuIndex = 0;
-        }
     }
 
 }
