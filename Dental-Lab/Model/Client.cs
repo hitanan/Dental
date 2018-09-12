@@ -28,6 +28,7 @@ namespace Dental_Lab.Model
         public string Code { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string Image { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Appointment> Appointments { get; set; }

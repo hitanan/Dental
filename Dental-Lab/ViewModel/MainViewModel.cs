@@ -123,7 +123,10 @@ namespace Dental_Lab.ViewModel
                     OpenedControls[controlName] = clientView = new ClientView();
                 }
                 var clientViewModel = clientView.DataContext as ClientViewModel;
-                clientViewModel.SelectedItem = item as Client ?? new Client();
+                if (updateMenu)
+                {
+                    clientViewModel.SelectedItem = item as Client ?? new Client();
+                }
                 clientView.DataContext = clientViewModel;
                 MainControl = clientView;
  

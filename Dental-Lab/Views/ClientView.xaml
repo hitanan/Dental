@@ -14,7 +14,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <TextBlock Text="Khách hàng"></TextBlock>
+            <!--<TextBlock Text="Khách hàng"></TextBlock>-->
         </Grid>
 
         <Grid Grid.Row="1">
@@ -26,29 +26,52 @@
 
             <!--các element binding từ selected item-->
             <materialDesign:Card Grid.Row="0" Margin="5">
-                <WrapPanel Margin="0 0 0 10">
-                    <TextBox Text="{Binding SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Tên khách hàng" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox Text="{Binding SelectedItem.Address, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Địa chỉ" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox Text="{Binding SelectedItem.Phone, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Điện thoại" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <TextBox Text="{Binding SelectedItem.Email, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                    <DatePicker VerticalAlignment="Center" SelectedDate="{Binding SelectedItem.Birthday, UpdateSourceTrigger=PropertyChanged}" Width="100" Margin="5 5 15 -7" materialDesign:HintAssist.Hint="Ngày sinh" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
-                </WrapPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <materialDesign:Card>
+                        <Grid>
+                            <Image Source="{Binding SelectedItem.Image, Converter={StaticResource Base64ImageConverter}}" Height="140" Width="120" Stretch="Uniform" />
+                            <Button Command="{Binding ChangePhotoCommand}" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Thay đổi ảnh" VerticalAlignment="Top" HorizontalAlignment="Right">
+                                <materialDesign:PackIcon Kind="Camera" Height="25" Width="25" Foreground="#666666"/>
+                            </Button>
+                        </Grid>
+                    </materialDesign:Card>
+                    <WrapPanel Grid.Column="1" Margin="0 0 0 10">
+                        <TextBox Text="{Binding SelectedItem.Name, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Tên khách hàng" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                        <TextBox Text="{Binding SelectedItem.Address, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Địa chỉ" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                        <TextBox Text="{Binding SelectedItem.Phone, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Điện thoại" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                        <TextBox Text="{Binding SelectedItem.Email, UpdateSourceTrigger=PropertyChanged}" Margin="5 5 15 5" materialDesign:HintAssist.Hint="Email" Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                        <DatePicker VerticalAlignment="Center" SelectedDate="{Binding SelectedItem.Birthday, UpdateSourceTrigger=PropertyChanged}" Width="100" Margin="5 5 15 -7" materialDesign:HintAssist.Hint="Ngày sinh" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+                    </WrapPanel>
+                </Grid>
             </materialDesign:Card>
 
             <materialDesign:Card Grid.Row="1" Margin="5">
-                <WrapPanel>
-                    <Button Command="{Binding AddCommand}" Style="{StaticResource MaterialDesignToolForegroundButton}" ToolTip="Xem thông tin" >
-                        <materialDesign:PackIcon Kind="Plus" Height="25" Width="25" Foreground="#666666"/>
+                <WrapPanel Margin="3">
+                    <Button Command="{Binding AddCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Thêm" >
+                        <materialDesign:PackIcon Kind="Plus" Height="24" Width="24"/>
                     </Button>
-                    <Button Command="{Binding EditCommand}" Content="Lưu" Margin="5" Width="100" />
+                    <Button Command="{Binding EditCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Lưu" Margin="10 0 0 0">
+                        <materialDesign:PackIcon Kind="ContentSave" Height="24" Width="24" />
+                    </Button>
+                    <Button Command="{Binding DeleteCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Xóa" Margin="5 0 0 0">
+                        <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
+                    </Button>
+                    <Button Command="{Binding AddAppointmentCommand}" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" ToolTip="Đặt hẹn" Margin="10 0 0 0">
+                        <materialDesign:PackIcon Kind="CalendarClock" Height="24" Width="24" />
+                    </Button>
+                    <!--<Button Command="{Binding EditCommand}" Content="Lưu" Margin="5" Width="100" />
                     <Button Command="{Binding DeleteCommand}" Content="Xóa" Margin="5" Width="100" />
-                     <Button Command="{Binding AddAppointmentCommand}" Content="Đặt hẹn" Margin="5" Width="100"/>
+                     <Button Command="{Binding AddAppointmentCommand}" Content="Đặt hẹn" Margin="5" Width="100"/>-->
                 </WrapPanel>
             </materialDesign:Card>
 
             <materialDesign:Card Grid.Row="2" Margin="5" VerticalAlignment="Stretch">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <ListView ItemsSource="{Binding List}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+                    <ListView ItemsSource="{Binding List}" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>

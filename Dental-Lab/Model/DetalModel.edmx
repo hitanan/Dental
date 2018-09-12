@@ -29,6 +29,7 @@
           <Property Name="Address" Type="nvarchar" MaxLength="255" />
           <Property Name="Email" Type="nvarchar" MaxLength="255" />
           <Property Name="Phone" Type="varchar" MaxLength="15" />
+          <Property Name="Image" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -117,6 +118,7 @@
           <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Appointments" Relationship="DentalModel.FK__Appointme__Statu__5070F446" FromRole="Client" ToRole="Appointment" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -216,6 +218,7 @@
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="DentalModel.Client">
               <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Birthday" ColumnName="Birthday" />

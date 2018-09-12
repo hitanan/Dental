@@ -85,7 +85,7 @@
                                                 <sfInput:SfTextBoxExt.AutoCompleteItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
-                                                            <Image Source="/Assets/ReminderIcon.png"  Stretch="Uniform" Width="30" Height="30" Margin="10"/>
+                                                            <Image Source="{Binding Image, Converter={StaticResource Base64ImageConverter}}" Stretch="Uniform" Width="60" Height="45" />
                                                             <StackPanel Orientation="Vertical">
                                                                 <TextBlock Text="{Binding Name}" FontWeight="Bold" />
                                                                 <TextBlock Text="{Binding Code}" />

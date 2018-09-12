@@ -39,7 +39,8 @@ namespace Dental_Lab.Views
         public static string RESOURCE = "Doctors";
 
         internal Appointment SelectedAppointment;
-        internal Client SelectedClient;
+        //private Client _selectedClient;
+        internal Client SelectedClient;// { get => _selectedClient; set { _selectedClient = value; OnPropertyChanged(); } }
         internal BindingClass AddDataContext = null;
         Appointment copiedAppointment;
         DateTime CurrentSelectedDate;
@@ -100,7 +101,6 @@ namespace Dental_Lab.Views
                 AppointmentType = Appointment.AppointmentTypes.Health,
                 Status = Schedule.AppointmentStatusCollection[0],
                 StartTime = currentdate.AddHours(7),
-                AppointmentTime = currentdate.AddHours(7).ToString("hh:mm tt"),
                 EndTime = currentdate.AddHours(10),
                 Subject = "Checkup",
                 AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 236, 12, 12)),
@@ -137,6 +137,9 @@ namespace Dental_Lab.Views
         public void SelectClient(Client client)
         {
             SelectedClient = client;
+            if (customeEditor != null && customeEditor.ClientText != null && AddDataContext.Appointment == null) {
+                customeEditor.ClientText.SelectedItem = SelectedClient;
+            }
         }
         #endregion
 
@@ -283,7 +286,6 @@ namespace Dental_Lab.Views
                     Location = app.Location,
                     ReadOnly = app.ReadOnly,
                     AppointmentBackground = app.AppointmentBackground,
-                    AppointmentTime = this.CurrentSelectedDate.ToString("hh:mm tt"),
                     AppointmentType = app.AppointmentType,
                     StartTime = (DateTime)this.CurrentSelectedDate,
                     EndTime = ((DateTime)this.CurrentSelectedDate).Add(appTimeDiff)
@@ -510,8 +512,14 @@ namespace Dental_Lab.Views
                 return ResourceCollection.Count > 0 ? (ResourceCollection[0] as Resource).ResourceName : null;
             }
         }
-        public string AppointmentTime { get; set; }
-        
+        public string AppointmentTime
+        {
+            get
+            {
+                return StartTime.ToString("hh:mm tt");
+            }
+        }
+
 
         public enum AppointmentTypes
         {
@@ -661,7 +669,7 @@ namespace Dental_Lab.Views
         {
             Window parentWindow = Application.Current.MainWindow;
             var mainViewModel = parentWindow.DataContext as MainViewModel;
-            mainViewModel.SetMainControl(ViewModel.Menu.ItemClient, ClientText.SelectedItem, false);
+            mainViewModel.SetMainControl(ViewModel.Menu.ItemClient, ClientText.SelectedItem, true);
         }
 
         private void Client_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -698,11 +706,9 @@ namespace Dental_Lab.Views
                 appointment = new Appointment();
                 DateTime date = (DateTime)AddStartTime.DateTime;
                 appointment.StartTime = ((DateTime)AddStartTimeMonth.SelectedDate).Date.Add(new TimeSpan(date.Hour, date.Minute, date.Second));
-                appointment.AppointmentTime = appointment.StartTime.ToString("hh:mm tt");
                 DateTime date1 = (DateTime)AddEndTime.DateTime;
                 //appointment.ReminderTime = (ReminderTimeType)AddReminder.SelectedItem;
                 appointment.EndTime = ((DateTime)AddEndTimeMonth.SelectedDate).Date.Add(new TimeSpan(date1.Hour, date1.Minute, date1.Second));
-                appointment.AppointmentTime = appointment.StartTime.ToString("hh:mm tt");
             }
             else
             {
@@ -710,10 +716,8 @@ namespace Dental_Lab.Views
                 DateTime date = (DateTime)EditStartTime.DateTime;
                 //appointment.ReminderTime = (ReminderTimeType)Reminder.SelectedItem;
                 appointment.StartTime = ((DateTime)EditStartTimeMonth.SelectedDate).Date.Add(new TimeSpan(date.Hour, date.Minute, date.Second));
-                appointment.AppointmentTime = appointment.StartTime.ToString("hh:mm tt");
                 DateTime date1 = (DateTime)EditEndTime.DateTime;
                 appointment.EndTime = ((DateTime)EditEndTimeMonth.SelectedDate).Date.Add(new TimeSpan(date1.Hour, date1.Minute, date1.Second));
-                appointment.AppointmentTime = appointment.StartTime.ToString("hh:mm tt");
             }
             if (Doctor.SelectedItem != null)
             {

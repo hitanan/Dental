@@ -1,4 +1,5 @@
 ﻿using Dental_Lab.Model;
+using Dental_Lab.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,8 +15,10 @@ namespace Dental_Lab.ViewModel
     {
 
         private ObservableCollection<Client> _List;
-        public ObservableCollection<Client> List { get => _List; set { _List = value; OnPropertyChanged(); } }
+        public ObservableCollection<Client> List { get => _List; set => SetProperty(ref _List, value); }
 
+        private int _selectedIndex;
+        public int SelectedIndex { get => _selectedIndex; set => SetProperty(ref _selectedIndex, value); }
         private Client _SelectedItem;
         public Client SelectedItem
         {
@@ -63,6 +66,7 @@ namespace Dental_Lab.ViewModel
         public ICommand EditCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand AddAppointmentCommand { get; set; }
+        public ICommand ChangePhotoCommand { get; set; }
 
         public ClientViewModel()
         {
@@ -112,6 +116,7 @@ namespace Dental_Lab.ViewModel
 
             });
             DeleteCommand = new RelayCommand<object>((p) => Reset(), (p) => SelectedItem.Id > 0);
+            ChangePhotoCommand = new RelayCommand<object>((p) => ChoosePhoto());
 
             AddAppointmentCommand = new RelayCommand<object>((p) =>
             {
@@ -119,14 +124,37 @@ namespace Dental_Lab.ViewModel
                 Window parentWindow = Application.Current.MainWindow;
                 var mainViewModel = parentWindow.DataContext as MainViewModel;
                 //mainViewModel.SetMainControl("ItemSchedule", true);
-                mainViewModel.SetMainControl(Menu.ItemSchedule, SelectedItem, false);
+                mainViewModel.SetMainControl(Menu.ItemSchedule, SelectedItem, true);
 
             }, (p) => SelectedItem.Id > 0);
         }
 
+
+        private void ChoosePhoto()
+        {
+            // Create OpenFileDialog 
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog()
+            {
+                DefaultExt = ".png",
+                Filter = "Image files|*.bmp;*.jpg;*.gif;*.png;*.tif|All files|*.*"
+            };
+
+            // Display OpenFileDialog by calling ShowDialog method 
+            Nullable<bool> result = dlg.ShowDialog();
+
+            // Get the selected file name and display in a TextBox 
+            if (result == true)
+            {
+                // Open document 
+                string filename = dlg.FileName;
+                SelectedItem.Image = ImageHelper.FileToBase64String(filename);
+            }
+            
+        }
         private void Reset()
         {
             SelectedItem = new Client();
+            SelectedIndex = -1;
         }
 
     }
