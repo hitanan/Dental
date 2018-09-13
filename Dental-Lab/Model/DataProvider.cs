@@ -23,11 +23,11 @@ namespace Dental_Lab.Model
             }
         }
 
-        public DatabaseEntities DB { get; set; }
+        public DentalEntities DB { get; set; }
 
         private DataProvider()
         {
-            DB = new DatabaseEntities();
+            DB = new DentalEntities();
         }
     }
 }

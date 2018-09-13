@@ -22,10 +22,10 @@ namespace Dental_Lab.Model
     
         public event PropertyChangedEventHandler PropertyChanged;
         public int Id { get; set; }
+        public string Code { get; set; }
         public string Name { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
         public string Address { get; set; }
-        public string Code { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Image { get; set; }

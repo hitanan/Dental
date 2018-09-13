@@ -120,32 +120,32 @@
     <Compile Include="Converters\BooleanToStringValueConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="Model\Appointment.cs">
-      <DependentUpon>DetalModel.tt</DependentUpon>
+      <DependentUpon>DentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Client.cs">
-      <DependentUpon>DetalModel.tt</DependentUpon>
+      <DependentUpon>DentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DataProvider.cs" />
-    <Compile Include="Model\DetalModel.Context.cs">
+    <Compile Include="Model\DentalModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DetalModel.Context.tt</DependentUpon>
+      <DependentUpon>DentalModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DetalModel.cs">
+    <Compile Include="Model\DentalModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DetalModel.tt</DependentUpon>
+      <DependentUpon>DentalModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\DetalModel.Designer.cs">
+    <Compile Include="Model\DentalModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DetalModel.edmx</DependentUpon>
+      <DependentUpon>DentalModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\User.cs">
-      <DependentUpon>DetalModel.tt</DependentUpon>
+      <DependentUpon>DentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\UserRole.cs">
-      <DependentUpon>DetalModel.tt</DependentUpon>
+      <DependentUpon>DentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Utility\ImageHelper.cs" />
     <Compile Include="Utility\Util.cs" />
@@ -203,12 +203,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Model\DetalModel.edmx">
+    <EntityDeploy Include="Model\DentalModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DetalModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>DentalModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model\DetalModel.edmx.diagram">
-      <DependentUpon>DetalModel.edmx</DependentUpon>
+    <None Include="Model\DentalModel.edmx.diagram">
+      <DependentUpon>DentalModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -250,19 +250,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
-    <Content Include="Model\DetalModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DetalModel.edmx</DependentUpon>
-      <LastGenOutput>DetalModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\DetalModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DetalModel.edmx</DependentUpon>
-      <LastGenOutput>DetalModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Model\DentalModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DentalModel.edmx</DependentUpon>
+      <LastGenOutput>DentalModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\DentalModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DentalModel.edmx</DependentUpon>
+      <LastGenOutput>DentalModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.3.2.0\build\Fody.targets" Condition="Exists('..\packages\Fody.3.2.0\build\Fody.targets')" />

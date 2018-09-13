@@ -67,11 +67,6 @@ namespace Dental_Lab.Views
 
         private ScheduleAppointmentCollection _appCollection;
         public ScheduleAppointmentCollection AppCollection { get => _appCollection; set { _appCollection = value; OnPropertyChanged(); } }
-        //public static List<MyClient> Clients = new List<MyClient> {
-        //    new MyClient { Id=0, Code="NguyenThiThu", Name = "Nguyễn Thị Thu" },
-        //    new MyClient { Id=1, Code="TruongVanDong", Name = "Trương Văn Đông" },
-        //    new MyClient { Id=2, Code="HaVanTham", Name = "Hà Văn Thắm" }
-        //};
 
         #endregion
 

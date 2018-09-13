@@ -13,10 +13,10 @@ namespace Dental_Lab.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DatabaseEntities : DbContext
+    public partial class DentalEntities : DbContext
     {
-        public DatabaseEntities()
-            : base("name=DatabaseEntities")
+        public DentalEntities()
+            : base("name=DentalEntities")
         {
         }
     
@@ -25,9 +25,9 @@ namespace Dental_Lab.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Appointment> Appointments { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
     }
 }

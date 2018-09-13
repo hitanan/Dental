@@ -20,11 +20,11 @@ namespace Dental_Lab.Model
         public System.DateTime StartTime { get; set; }
         public System.DateTime EndTime { get; set; }
         public Nullable<int> ClientId { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public Nullable<int> DoctorId { get; set; }
         public string Note { get; set; }
         public string Status { get; set; }
     
         public virtual Client Client { get; set; }
-        public virtual User User { get; set; }
+        public virtual User Doctor { get; set; }
     }
 }
