@@ -11,8 +11,8 @@ namespace Dental_Lab.Model
 {
     using System;using System.ComponentModel;using PropertyChanged;
     using System.Collections.Generic;
-    
-    public partial class Appointment : INotifyPropertyChanged
+    using Syncfusion.UI.Xaml.Schedule;
+    public partial class Appointment : ScheduleAppointment,INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public int Id { get; set; }
@@ -21,8 +21,8 @@ namespace Dental_Lab.Model
         public System.DateTime EndTime { get; set; }
         public Nullable<int> ClientId { get; set; }
         public Nullable<int> DoctorId { get; set; }
-        public string Note { get; set; }
         public string Status { get; set; }
+        public string Notes { get; set; }
     
         public virtual Client Client { get; set; }
         public virtual User Doctor { get; set; }

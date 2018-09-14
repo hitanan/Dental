@@ -118,7 +118,9 @@
     </ApplicationDefinition>
     <Compile Include="Converters\Base64ImageConverter.cs" />
     <Compile Include="Converters\BooleanToStringValueConverter.cs" />
+    <Compile Include="Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
+    <Compile Include="Converters\OneInTwoConverter.cs" />
     <Compile Include="Model\Appointment.cs">
       <DependentUpon>DentalModel.tt</DependentUpon>
     </Compile>

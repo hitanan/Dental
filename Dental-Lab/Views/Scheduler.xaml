@@ -105,7 +105,6 @@
                                             </StackPanel>
                                         </Grid>
                                         <TextBlock Grid.Row="2" Foreground="Black" VerticalAlignment="Center" Text="Doctor"/>
-                                        <!--<ComboBox Grid.Row="2" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType,Mode=OneWay}"-->
                                         <ComboBox  Grid.Row="2" Grid.Column="1" x:Name="doctor" DisplayMemberPath="Name" SelectedItem="{Binding Appointment.Doctor, Mode=TwoWay}" Height="28"/>
 
                                         <TextBlock Grid.Row="3" Text="Ngày" Margin="0 20" />
@@ -178,20 +177,34 @@
                         <Rectangle Fill="{Binding AppointmentBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="0.3*" />
-                                <RowDefinition Height="0.7*" />
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Style="{StaticResource MaterialDesignButtonTextBlock}" HorizontalAlignment="Left"  FontFamily="Segoe UI" Foreground="Black" Margin="0 0 0 -5">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource OneInTwoConverter}" ConverterParameter="UPPER">
+                                        <Binding Path="Client"/>
+                                        <Binding Path="Subject"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 0 0 0">
+                                <Image Source="{Binding AppointmentImageURI, Mode=OneWay}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="30" Width="30"  ToolTip="Loại Cuộc hẹn"  />
+                                <TextBlock Text="{Binding StartTime, Converter={StaticResource DateToStringConverter},ConverterParameter='hh:mm tt'}" VerticalAlignment="Center" FontSize="13" Foreground="White" FontWeight="Normal" FontFamily="Segoe UI" TextWrapping="NoWrap"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="2" Text="{Binding Subject}" FontStyle="Italic"  Margin="3 0 0 0"  HorizontalAlignment="Left" FontSize="15" Foreground="White" FontWeight="Normal" FontFamily="Segoe UI" TextWrapping="Wrap"/>
+                        </Grid>
+                        <!--<Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.5*" />
+                                <RowDefinition Height="0.5*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Margin="10,2,0,0" Text="{Binding Subject}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Foreground="White" FontWeight="Normal" FontFamily="Segoe UI" ToolTip="{Binding Doctor.Name}" />
-                            <TextBlock Text="{Binding DoctorCollection}" Grid.Row="0" Grid.Column="0" />
-                            <TextBlock Margin="10,2,0,0" Text="{Binding Doctor.Name}" Grid.Row="0" Grid.Column="1" />
-                            
-                            <Image Source="{Binding AppointmentImageURI, Mode=OneWay}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="70" Width="70" />
-                            <TextBlock Text="{Binding AppointmentTime}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="13" Foreground="White" FontWeight="Normal" FontFamily="Segoe UI" TextWrapping="NoWrap"/>
-                        </Grid>
+                        </Grid>-->
                     </Grid>
                 </DataTemplate>
             </syncfusion:SfSchedule.AppointmentTemplate>

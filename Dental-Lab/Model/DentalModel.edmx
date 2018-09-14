@@ -15,7 +15,7 @@
           <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="ClientId" Type="int" />
           <Property Name="DoctorId" Type="int" />
-          <Property Name="Note" Type="nvarchar(max)" />
+          <Property Name="Notes" Type="nvarchar(max)" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Client">
@@ -116,10 +116,10 @@
           <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ClientId" Type="Int32" />
           <Property Name="DoctorId" Type="Int32" />
-          <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Client" Relationship="Self.FK__Appointme__Statu__5070F446" FromRole="Appointment" ToRole="Client" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK__Appointme__UserI__5165187F" FromRole="Appointment" ToRole="User" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -218,13 +218,13 @@
           <EntitySetMapping Name="Appointments">
             <EntityTypeMapping TypeName="DentalModel.Appointment">
               <MappingFragment StoreEntitySet="Appointment">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
-                <ScalarProperty Name="Note" ColumnName="Note" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>

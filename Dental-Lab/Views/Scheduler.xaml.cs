@@ -97,7 +97,7 @@ namespace Dental_Lab.Views
                 Status = Schedule.AppointmentStatusCollection[0],
                 StartTime = currentdate.AddHours(7),
                 EndTime = currentdate.AddHours(10),
-                Subject = "Checkup",
+                Subject = "Checkup this is the long text line. Checkup this is the long text line",
                 AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 236, 12, 12)),
                 Doctor = Doctors[0],
                 Client = Clients[1],
@@ -501,20 +501,6 @@ namespace Dental_Lab.Views
             }
         }
 
-        public string DoctorCollection
-        {
-            get {
-                return ResourceCollection.Count > 0 ? (ResourceCollection[0] as Resource).ResourceName : null;
-            }
-        }
-        public string AppointmentTime
-        {
-            get
-            {
-                return StartTime.ToString("hh:mm tt");
-            }
-        }
-
 
         public enum AppointmentTypes
         {
@@ -538,7 +524,6 @@ namespace Dental_Lab.Views
 
                     ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = Doctor.UserName } };
                     OnPropertyChanged("ResourceCollection");
-                    OnPropertyChanged("DoctorCollection");
                 }
             }
         }

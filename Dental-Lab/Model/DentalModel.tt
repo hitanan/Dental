@@ -22,8 +22,9 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 {
     fileManager.StartNewFile(entity.Name + ".cs");
     BeginNamespace(code);
+    var appointmentClass = "Appointment".Equals(code.Escape(entity));
 #>
-<#=codeStringGenerator.UsingDirectives(inHeader: false)#>
+<#=codeStringGenerator.UsingDirectives(inHeader: false, includeCollections: true, appointmentClass: appointmentClass)#>
 <#=codeStringGenerator.EntityClassOpening(entity)#>
 {
 <#
@@ -322,6 +323,14 @@ public class CodeStringGenerator
     
     public string EntityClassOpening(EntityType entity)
     {
+        if ("Appointment".Equals(_code.Escape(entity))) {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} {1}partial class Appointment : ScheduleAppointment,INotifyPropertyChanged",
+                Accessibility.ForType(entity),
+                _code.SpaceAfter(_code.AbstractOption(entity))
+            ); 
+        }
         return string.Format(
             CultureInfo.InvariantCulture,
             "{0} {1}partial class {2}{3}{4}",
@@ -431,16 +440,17 @@ public class CodeStringGenerator
             _code.Escape(entitySet));
     }
 
-    public string UsingDirectives(bool inHeader, bool includeCollections = true)
+    public string UsingDirectives(bool inHeader, bool includeCollections = true, bool appointmentClass = false)
     {
         return inHeader == string.IsNullOrEmpty(_code.VsNamespaceSuggestion())
             ? string.Format(
                 CultureInfo.InvariantCulture,
                 "{0}using System;using System.ComponentModel;using PropertyChanged;{1}" +
-                "{2}",
+                "{2}{3}",
                 inHeader ? Environment.NewLine : "",
                 includeCollections ? (Environment.NewLine + "using System.Collections.Generic;") : "",
-                inHeader ? "" : Environment.NewLine)
+                inHeader ? "" : Environment.NewLine,
+                appointmentClass ? "using Syncfusion.UI.Xaml.Schedule;" : "")
             : "";
     }
 }

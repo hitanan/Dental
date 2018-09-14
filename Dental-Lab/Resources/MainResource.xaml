@@ -8,5 +8,7 @@
     <cv:MultiValueConverter x:Key="MultiValueParam"></cv:MultiValueConverter>
     <cv:BooleanToStringValueConverter x:Key="BoolToStringConverter"></cv:BooleanToStringValueConverter>
     <cv:Base64ImageConverter x:Key="Base64ImageConverter"></cv:Base64ImageConverter>
+    <cv:DateTimeToStringConverter x:Key="DateToStringConverter"></cv:DateTimeToStringConverter>
+    <cv:OneInTwoConverter x:Key="OneInTwoConverter"></cv:OneInTwoConverter>
     <viewmodel:ClientViewModel x:Key="ClientVM"></viewmodel:ClientViewModel>
 </ResourceDictionary>
