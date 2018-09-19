@@ -46,14 +46,6 @@ namespace Dental_Lab.Views
         DateTime CurrentSelectedDate;
         //Reminder reminder;
 
-         private string _scheduleType;
-         public string ScheduleType { get => _scheduleType; set { _scheduleType = value; OnPropertyChanged(); } }
-
-
-        private string _scheduleResource;
-        public string ScheduleResource { get => _scheduleResource; set { _scheduleResource = value; OnPropertyChanged(); } }
-
-        public ObservableCollection<ResourceType> ResourceCollection { get; set; }
 
         private ObservableCollection<Client> _Clients;
         public ObservableCollection<Client> Clients { get => _Clients; set { _Clients = value; OnPropertyChanged(); } }
@@ -61,12 +53,22 @@ namespace Dental_Lab.Views
         private ObservableCollection<User> _doctors;
         public ObservableCollection<User> Doctors { get => _doctors; set { _doctors = value; OnPropertyChanged(); } }
 
+
+        public ObservableCollection<AppointmentType> AppointmentTypes;
         #endregion
 
         #region Properties
+        private string _scheduleType;
+        public string ScheduleType { get => _scheduleType; set { _scheduleType = value; OnPropertyChanged(); } }
 
-        private ScheduleAppointmentCollection _appCollection;
-        public ScheduleAppointmentCollection AppCollection { get => _appCollection; set { _appCollection = value; OnPropertyChanged(); } }
+
+        private string _scheduleResource;
+        public string ScheduleResource { get => _scheduleResource; set { _scheduleResource = value; OnPropertyChanged(); } }
+
+        public ObservableCollection<ResourceType> ResourceCollection { get; set; }
+
+        private CustomAppointmentCollection _appCollection;
+        public CustomAppointmentCollection AppCollection { get => _appCollection; set { _appCollection = value; OnPropertyChanged(); } }
 
         #endregion
 
@@ -83,28 +85,27 @@ namespace Dental_Lab.Views
             ScheduleType = "Week";
             ScheduleResource = RESOURCE;
 
-            AppCollection = new ScheduleAppointmentCollection();
+            AppCollection = new CustomAppointmentCollection();
 
             Clients = new ObservableCollection<Client>(DataProvider.Ins.DB.Clients);
             Doctors = new ObservableCollection<User>(DataProvider.Ins.DB.Users.Where(u => u.RoleId == 2));
+            AppointmentTypes = new ObservableCollection<AppointmentType>(DataProvider.Ins.DB.AppointmentTypes);
 
             DateTime currentdate = DateTime.Now.Date;
             if (currentdate.DayOfWeek == System.DayOfWeek.Friday || currentdate.DayOfWeek == System.DayOfWeek.Saturday ||currentdate.DayOfWeek == System.DayOfWeek.Sunday )
                 currentdate = currentdate.SubtractDays(3);
             AppCollection.Add(new Appointment()
             {
-                AppointmentType = Appointment.AppointmentTypes.Health,
-                Status = Schedule.AppointmentStatusCollection[0],
+                AppointmentType = null,// AppointmentTypes.Count > 0 ? AppointmentTypes[0]: null,
                 StartTime = currentdate.AddHours(7),
                 EndTime = currentdate.AddHours(10),
                 Subject = "Checkup this is the long text line. Checkup this is the long text line",
-                AppointmentBackground = new SolidColorBrush(Color.FromArgb(255, 236, 12, 12)),
                 Doctor = Doctors[0],
                 Client = Clients[1],
                 ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = Doctors[0].UserName } }
             });
 
-            Schedule.Appointments = AppCollection;
+            
 
             // Doctor Resources
             ResourceCollection = new ObservableCollection<ResourceType>();
@@ -125,7 +126,7 @@ namespace Dental_Lab.Views
             Schedule.AppointmentEditorOpening += Schedule_AppointmentEditorOpening;
             Schedule.Loaded += Schedule_Loaded;
             //Schedule.ReminderOpening += Schedule_ReminderOpening;
-
+            //Schedule.ItemsSource = AppCollection;
 
         }
 
@@ -141,8 +142,8 @@ namespace Dental_Lab.Views
         #region Events
         void Schedule_Loaded(object sender, RoutedEventArgs e)
         {
-            customeEditor.AppType.ItemsSource = Enum.GetValues(typeof(Appointment.AppointmentTypes));
-            customeEditor.AppType.SelectedIndex = 0;
+            customeEditor.AppType.ItemsSource = AppointmentTypes;
+            //customeEditor.AppType.SelectedIndex = 0;
             customeEditor.Doctor.ItemsSource = Doctors;
 
             customeEditor.ClientText.AutoCompleteSource = Clients;
@@ -150,6 +151,7 @@ namespace Dental_Lab.Views
 
             Schedule.PreviewMouseLeftButtonDown += Schedule_PreviewMouseLeftButtonDown;
             Schedule.PreviewMouseWheel += Schedule_PreviewMouseWheel;
+            DataContext = this;
         }
 
 
@@ -278,9 +280,6 @@ namespace Dental_Lab.Views
                 {
                     Subject = app.Subject,
                     Notes = app.Notes,
-                    Location = app.Location,
-                    ReadOnly = app.ReadOnly,
-                    AppointmentBackground = app.AppointmentBackground,
                     AppointmentType = app.AppointmentType,
                     StartTime = (DateTime)this.CurrentSelectedDate,
                     EndTime = ((DateTime)this.CurrentSelectedDate).Add(appTimeDiff)
@@ -292,13 +291,14 @@ namespace Dental_Lab.Views
                         new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = (AddDataContext.SelectedResource[0] as Resource).ResourceName }
                     };
                 }
-                Schedule.Appointments.Add(appointment);
+                (Schedule.ItemsSource as CustomAppointmentCollection).Add(appointment);
             }
         }
 
         void CopyButton_Click(object sender, RoutedEventArgs e)
         {
-            copiedAppointment = (Appointment)Schedule.SelectedAppointment;
+            // TODO
+            //copiedAppointment = (Appointment)Schedule.SelectedAppointment;
         }
 
         void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -445,106 +445,110 @@ namespace Dental_Lab.Views
 
     #region Appointment Class
 
-    public class Appointment : ScheduleAppointment, INotifyPropertyChanged
+    public class CustomAppointmentCollection : ObservableCollection<Appointment>
     {
-        #region public properties
-
-        private AppointmentTypes _appointmentType;
-        public AppointmentTypes AppointmentType
-        {
-            get => _appointmentType;
-            set
-            {
-                if (_appointmentType != value)
-                {
-                    _appointmentType = value;
-                    OnPropertyChanged("AppointmentImageURI");
-                    OnPropertyChanged("AppointmentType");
-                }
-            }
-        }
-        //public AppointmentTypes AppointmentType { get; set; }
-
-
-        //private ImageSource _imageuri;
-        //public ImageSource AppointmentImageURI
-        //{
-        //    get { return _imageuri; }
-        //    set
-        //    {
-        //        _imageuri = value;
-        //        OnPropertyChanged("AppointmentImageURI");
-        //    }
-        //}
-        //[DependsOn("AppointmentType")]
-        public ImageSource AppointmentImageURI
-        {
-            get {
-                switch (AppointmentType)
-                {
-                    case Appointment.AppointmentTypes.Family:
-                        {
-                            return new BitmapImage(new Uri("pack://application:,,,/Assets/Cake.png"));
-                        }
-                    case Appointment.AppointmentTypes.Health:
-                        {
-                            return new BitmapImage(new Uri("pack://application:,,,/Assets/Hospital.png"));
-                        }
-                    case Appointment.AppointmentTypes.Office:
-                        {
-                            return new BitmapImage(new Uri("pack://application:,,,/Assets/Team.png"));
-                        }
-                    default:
-                        return new BitmapImage(new Uri("pack://application:,,,/Assets/Team.png"));
-                }
-
-            }
-        }
-
-
-        public enum AppointmentTypes
-        {
-            Office,
-            Health,
-            Family
-        }
-
-        private Client _client;
-        public Client Client { get => _client; set  { _client = value; OnPropertyChanged(); } }
-
-        private User _doctor;
-        public User Doctor {
-            get => _doctor;
-            set {
-
-                if (_doctor != value)
-                {
-                    _doctor = value;
-                    OnPropertyChanged();
-
-                    ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = Doctor.UserName } };
-                    OnPropertyChanged("ResourceCollection");
-                }
-            }
-        }
-
-        #endregion
-
-        //private void OnPropertyChanged(string propertyName)
-        //{
-        //    var eventHandler = PropertyChanged;
-        //    if (eventHandler != null)
-        //    {
-        //        eventHandler(this, new PropertyChangedEventArgs(propertyName));
-        //    }
-        //}
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
+
+    //public class Appointment : ScheduleAppointment, INotifyPropertyChanged
+    //{
+    //    #region public properties
+
+    //    private AppointmentTypes _appointmentType;
+    //    public AppointmentTypes AppointmentType
+    //    {
+    //        get => _appointmentType;
+    //        set
+    //        {
+    //            if (_appointmentType != value)
+    //            {
+    //                _appointmentType = value;
+    //                OnPropertyChanged("AppointmentImageURI");
+    //                OnPropertyChanged("AppointmentType");
+    //            }
+    //        }
+    //    }
+    //    //public AppointmentTypes AppointmentType { get; set; }
+
+
+    //    //private ImageSource _imageuri;
+    //    //public ImageSource AppointmentImageURI
+    //    //{
+    //    //    get { return _imageuri; }
+    //    //    set
+    //    //    {
+    //    //        _imageuri = value;
+    //    //        OnPropertyChanged("AppointmentImageURI");
+    //    //    }
+    //    //}
+    //    //[DependsOn("AppointmentType")]
+    //    public ImageSource AppointmentImageURI
+    //    {
+    //        get {
+    //            switch (AppointmentType)
+    //            {
+    //                case Appointment.AppointmentTypes.Family:
+    //                    {
+    //                        return new BitmapImage(new Uri("pack://application:,,,/Assets/Cake.png"));
+    //                    }
+    //                case Appointment.AppointmentTypes.Health:
+    //                    {
+    //                        return new BitmapImage(new Uri("pack://application:,,,/Assets/Hospital.png"));
+    //                    }
+    //                case Appointment.AppointmentTypes.Office:
+    //                    {
+    //                        return new BitmapImage(new Uri("pack://application:,,,/Assets/Team.png"));
+    //                    }
+    //                default:
+    //                    return new BitmapImage(new Uri("pack://application:,,,/Assets/Team.png"));
+    //            }
+
+    //        }
+    //    }
+
+
+    //    public enum AppointmentTypes
+    //    {
+    //        Office,
+    //        Health,
+    //        Family
+    //    }
+
+    //    private Client _client;
+    //    public Client Client { get => _client; set  { _client = value; OnPropertyChanged(); } }
+
+    //    private User _doctor;
+    //    public User Doctor {
+    //        get => _doctor;
+    //        set {
+
+    //            if (_doctor != value)
+    //            {
+    //                _doctor = value;
+    //                OnPropertyChanged();
+
+    //                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = Doctor.UserName } };
+    //                OnPropertyChanged("ResourceCollection");
+    //            }
+    //        }
+    //    }
+
+    //    #endregion
+
+    //    //private void OnPropertyChanged(string propertyName)
+    //    //{
+    //    //    var eventHandler = PropertyChanged;
+    //    //    if (eventHandler != null)
+    //    //    {
+    //    //        eventHandler(this, new PropertyChangedEventArgs(propertyName));
+    //    //    }
+    //    //}
+
+    //    public event PropertyChangedEventHandler PropertyChanged;
+    //    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    //    {
+    //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    //    }
+    //}
 
     #endregion
 
@@ -667,7 +671,9 @@ namespace Dental_Lab.Views
             SchedulerControl.Schedule.IsHitTestVisible = true;
             if (SchedulerControl.SelectedAppointment != null)
             {
-                SchedulerControl.Schedule.Appointments.Remove(SchedulerControl.SelectedAppointment);
+                CustomAppointmentCollection colections = SchedulerControl.Schedule.ItemsSource as CustomAppointmentCollection;
+                colections.Remove(SchedulerControl.SelectedAppointment);
+                SchedulerControl.Schedule.ItemsSource = colections;
             }
 
         }
@@ -720,17 +726,19 @@ namespace Dental_Lab.Views
             //appointment.Location = Location.Text;
             if (AppType.SelectedItem != null)
             {
-                appointment.AppointmentType = (Appointment.AppointmentTypes)AppType.SelectedItem;
+                appointment.AppointmentType = AppType.SelectedItem as AppointmentType;
             }
             else
             {
-                appointment.AppointmentType = Appointment.AppointmentTypes.Office;
+                appointment.AppointmentType = null;
             }
 
             //SetImageForAppointment(appointment);
             if (SchedulerControl.SelectedAppointment == null)
             {
-                SchedulerControl.Schedule.Appointments.Add(appointment);
+                CustomAppointmentCollection colections = SchedulerControl.Schedule.ItemsSource as CustomAppointmentCollection;
+                colections.Add(appointment);
+                SchedulerControl.Schedule.ItemsSource = colections;
             }
 
         }

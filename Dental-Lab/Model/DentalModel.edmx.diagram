@@ -12,6 +12,8 @@
         <AssociationConnector Association="DentalModel.FK__Appointme__Statu__5070F446" ManuallyRouted="false" />
         <AssociationConnector Association="DentalModel.FK__Appointme__UserI__5165187F" ManuallyRouted="false" />
         <AssociationConnector Association="DentalModel.FK_UserRole" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DentalModel.AppointmentType" Width="1.5" PointX="5.375" PointY="5.875" />
+        <AssociationConnector Association="DentalModel.FK__Appointme__TypeI__5CD6CB2B" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -130,7 +130,7 @@
                                         <!--<sfInput:SfTextBoxExt x:Name="where" FontFamily="Segoe UI" FontSize="12" BorderThickness="0" Foreground="#FF454545" Text="{Binding Appointment.Location,Mode=OneWay}" Grid.Row="12" Margin="10 2 10 10" Height="25"/>-->
 
                                         <TextBlock Grid.Row="5" Text="AppointmentType" Margin="0 20" />
-                                        <ComboBox Grid.Row="5" Grid.Column="1" SelectedItem="{Binding Appointment.AppointmentType, Mode=TwoWay}" x:Name="apptype" Height="28"/>
+                                        <ComboBox Grid.Row="5" Grid.Column="1" x:Name="apptype" DisplayMemberPath="Name" SelectedItem="{Binding Appointment.AppointmentType, Mode=TwoWay}" Height="28"/>
 
        
                                         <!--<TextBlock Grid.Row="6" Grid.Column="0" Text="Ghi chú"/>-->
@@ -170,11 +170,19 @@
                                Resource="{Binding ScheduleResource}" 
                                DayHeaderOrder="OrderByDate" 
                                HeaderDateFormat="dddd dd/MM"
+                               ItemsSource="{Binding AppCollection}"
                                >
+            <syncfusion:SfSchedule.AppointmentMapping>
+                <syncfusion:ScheduleAppointmentMapping 
+                    SubjectMapping="Subject" 
+                    StartTimeMapping="StartTime" 
+                    EndTimeMapping="EndTime" 
+                    ResourceCollectionMapping="ResourceCollection" />
+            </syncfusion:SfSchedule.AppointmentMapping>
             <syncfusion:SfSchedule.AppointmentTemplate>
                 <DataTemplate>
                     <Grid>
-                        <Rectangle Fill="{Binding AppointmentBackground}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <Rectangle Fill="{DynamicResource PrimaryHueMidBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -190,30 +198,14 @@
                                 </TextBlock.Text>
                             </TextBlock>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 0 0 0">
-                                <Image Source="{Binding AppointmentImageURI, Mode=OneWay}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="30" Width="30"  ToolTip="Loại Cuộc hẹn"  />
+                                <Image Source="{Binding AppointmentType, Converter={StaticResource AppTypeToImageConverter}}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Height="30" Width="30"  ToolTip="Loại Cuộc hẹn"  />
                                 <TextBlock Text="{Binding StartTime, Converter={StaticResource DateToStringConverter},ConverterParameter='hh:mm tt'}" VerticalAlignment="Center" FontSize="13" Foreground="White" FontWeight="Normal" FontFamily="Segoe UI" TextWrapping="NoWrap"/>
                             </StackPanel>
                             <TextBlock Grid.Row="2" Text="{Binding Subject}" FontStyle="Italic"  Margin="3 0 0 0"  HorizontalAlignment="Left" FontSize="15" Foreground="White" FontWeight="Normal" FontFamily="Segoe UI" TextWrapping="Wrap"/>
                         </Grid>
-                        <!--<Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="0.5*" />
-                                <RowDefinition Height="0.5*" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                        </Grid>-->
                     </Grid>
                 </DataTemplate>
             </syncfusion:SfSchedule.AppointmentTemplate>
-            <!--<syncfusion:SfSchedule.ScheduleResourceTypeCollection >
-                <syncfusion:ResourceType TypeName="Doctors">
-                    <syncfusion:Resource  DisplayName="Dr.Jacob John, M.D " ResourceName="Dr.Jacob"/>
-                    <syncfusion:Resource  DisplayName="Dr.Darsy Jane, M.D" ResourceName="Dr.Darsy"/>
-                </syncfusion:ResourceType>
-            </syncfusion:SfSchedule.ScheduleResourceTypeCollection>-->
         </syncfusion:SfSchedule>
 
         <Popup x:Name="RadialPopup" shared:SkinStorage.VisualStyle="Metro" Placement="MousePoint" AllowsTransparency="True" IsOpen="False">

@@ -116,12 +116,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\AppTypeToBackgroundConverter.cs" />
+    <Compile Include="Converters\AppTypeToImageConverter.cs" />
     <Compile Include="Converters\Base64ImageConverter.cs" />
     <Compile Include="Converters\BooleanToStringValueConverter.cs" />
     <Compile Include="Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Converters\MultiValueConverter.cs" />
     <Compile Include="Converters\OneInTwoConverter.cs" />
     <Compile Include="Model\Appointment.cs">
+      <DependentUpon>DentalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AppointmentType.cs">
       <DependentUpon>DentalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Client.cs">

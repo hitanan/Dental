@@ -10,5 +10,7 @@
     <cv:Base64ImageConverter x:Key="Base64ImageConverter"></cv:Base64ImageConverter>
     <cv:DateTimeToStringConverter x:Key="DateToStringConverter"></cv:DateTimeToStringConverter>
     <cv:OneInTwoConverter x:Key="OneInTwoConverter"></cv:OneInTwoConverter>
+    <cv:AppTypeToImageConverter x:Key="AppTypeToImageConverter"></cv:AppTypeToImageConverter>
+    <cv:AppTypeToBackgroundConverter x:Key="AppTypeToBackgroundConverter"></cv:AppTypeToBackgroundConverter>
     <viewmodel:ClientViewModel x:Key="ClientVM"></viewmodel:ClientViewModel>
 </ResourceDictionary>

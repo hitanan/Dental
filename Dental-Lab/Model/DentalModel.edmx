@@ -17,6 +17,14 @@
           <Property Name="DoctorId" Type="int" />
           <Property Name="Notes" Type="nvarchar(max)" />
           <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="TypeId" Type="int" />
+        </EntityType>
+        <EntityType Name="AppointmentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -60,6 +68,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Appointme__TypeI__5CD6CB2B">
+          <End Role="AppointmentType" Type="Self.AppointmentType" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Appointme__UserI__5165187F">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
@@ -86,11 +106,16 @@
         </Association>
         <EntityContainer Name="DentalModelStoreContainer">
           <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppointmentType" EntityType="Self.AppointmentType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Appointme__Statu__5070F446" Association="Self.FK__Appointme__Statu__5070F446">
             <End Role="Client" EntitySet="Client" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__TypeI__5CD6CB2B" Association="Self.FK__Appointme__TypeI__5CD6CB2B">
+            <End Role="AppointmentType" EntitySet="AppointmentType" />
             <End Role="Appointment" EntitySet="Appointment" />
           </AssociationSet>
           <AssociationSet Name="FK__Appointme__UserI__5165187F" Association="Self.FK__Appointme__UserI__5165187F">
@@ -120,6 +145,8 @@
           <NavigationProperty Name="Client" Relationship="Self.FK__Appointme__Statu__5070F446" FromRole="Appointment" ToRole="Client" />
           <NavigationProperty Name="Doctor" Relationship="Self.FK__Appointme__UserI__5165187F" FromRole="Appointment" ToRole="User" />
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TypeId" Type="Int32" />
+          <NavigationProperty Name="AppointmentType" Relationship="DentalModel.FK__Appointme__TypeI__5CD6CB2B" FromRole="Appointment" ToRole="AppointmentType" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
@@ -208,7 +235,32 @@
             <End Role="UserRole" EntitySet="UserRoles" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="AppointmentTypes" EntityType="DentalModel.AppointmentType" />
+          <AssociationSet Name="FK__Appointme__TypeI__5CD6CB2B" Association="DentalModel.FK__Appointme__TypeI__5CD6CB2B">
+            <End Role="AppointmentType" EntitySet="AppointmentTypes" />
+            <End Role="Appointment" EntitySet="Appointments" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AppointmentType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Appointments" Relationship="DentalModel.FK__Appointme__TypeI__5CD6CB2B" FromRole="AppointmentType" ToRole="Appointment" />
+        </EntityType>
+        <Association Name="FK__Appointme__TypeI__5CD6CB2B">
+          <End Type="DentalModel.AppointmentType" Role="AppointmentType" Multiplicity="0..1" />
+          <End Type="DentalModel.Appointment" Role="Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -218,6 +270,7 @@
           <EntitySetMapping Name="Appointments">
             <EntityTypeMapping TypeName="DentalModel.Appointment">
               <MappingFragment StoreEntitySet="Appointment">
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="Notes" ColumnName="Notes" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Subject" ColumnName="Subject" />
@@ -259,6 +312,14 @@
               <MappingFragment StoreEntitySet="UserRole">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppointmentTypes">
+            <EntityTypeMapping TypeName="DentalModel.AppointmentType">
+              <MappingFragment StoreEntitySet="AppointmentType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
