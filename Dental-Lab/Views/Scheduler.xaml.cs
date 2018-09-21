@@ -639,8 +639,14 @@ namespace Dental_Lab.Views
             Visibility = Visibility.Collapsed;
 
             ClientText.SelectedItemChanged += Client_SelectedItemChanged;
+            EditStartTimeMonth.SelectedDateChanged += EditStartTimeMonth_SelectedDateChanged;
 
             base.OnApplyTemplate();
+        }
+
+        private void EditStartTimeMonth_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EditEndTimeMonth.SelectedDate = EditStartTimeMonth.SelectedDate;
         }
 
         private void ClearClient_Click(object sender, RoutedEventArgs e)

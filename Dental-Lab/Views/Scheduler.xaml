@@ -115,8 +115,8 @@
                                         </StackPanel>
                                         <TextBlock Grid.Row="4" Text="Giờ" Margin="0 5" />
                                         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
-                                            <DatePicker x:Name="addendmonth" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0" Visibility="Collapsed"/>
-                                            <DatePicker x:Name="editendmonth" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0" Visibility="Collapsed"/>
+                                            <DatePicker x:Name="addendmonth" SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0" Visibility="Visible"/>
+                                            <DatePicker x:Name="editendmonth" SelectedDate="{Binding Appointment.EndTime}"  SelectedDateFormat="Short" Height="25" BorderBrush="DarkGray" BorderThickness="0.5" Background="White" Margin="0 0 0 0" Visibility="Visible" />
 
                                             <shared:DateTimeEdit x:Name="addstarttime" DateTime="{Binding CurrentSelectedDate}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25" CultureInfo="vi-VN"/>
                                             <shared:DateTimeEdit x:Name="editstarttime" DateTime="{Binding Appointment.StartTime,Mode=OneWay}" Pattern="ShortTime" IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Height="25" CultureInfo="vi-VN"/>
@@ -170,7 +170,7 @@
                                Resource="{Binding ScheduleResource}" 
                                DayHeaderOrder="OrderByDate" 
                                HeaderDateFormat="dddd dd/MM"
-                               ItemsSource="{Binding AppCollection}"
+                               ItemsSource="{Binding AppCollection, Mode=TwoWay}"
                                >
             <syncfusion:SfSchedule.AppointmentMapping>
                 <syncfusion:ScheduleAppointmentMapping 
