@@ -646,7 +646,14 @@ namespace Dental_Lab.Views
 
         private void EditStartTimeMonth_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            EditEndTimeMonth.SelectedDate = EditStartTimeMonth.SelectedDate;
+            //EditEndTimeMonth.SelectedDate = EditStartTimeMonth.SelectedDate;
+            if (EditStartTimeMonth.SelectedDate != null)
+            {
+                EditEndTimeMonth.SelectedDate = ((DateTime)EditStartTimeMonth.SelectedDate).Date.Add(new TimeSpan(0, 20, 0));
+            } else
+            {
+                EditEndTimeMonth.SelectedDate = null;
+            }
         }
 
         private void ClearClient_Click(object sender, RoutedEventArgs e)
@@ -715,6 +722,9 @@ namespace Dental_Lab.Views
             {
                 //appointment.ResourceCollection = new ObservableCollection<object>();
                 appointment.ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = Scheduler.RESOURCE, ResourceName = (Doctor.SelectedItem as User).UserName} };
+            } else
+            {
+                appointment.ResourceCollection = new ObservableCollection<object>();
             }
             Client client;
             if (ClientText.SelectedItem != null)
