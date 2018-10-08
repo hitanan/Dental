@@ -9,7 +9,7 @@
 
 namespace Dental_Lab.Model
 {
-    using System;using System.ComponentModel;using PropertyChanged;
+    using System; using System.ComponentModel; using PropertyChanged;
     using System.Collections.Generic;
     using Syncfusion.UI.Xaml.Schedule;
     using System.ComponentModel.DataAnnotations.Schema;
@@ -34,7 +34,17 @@ namespace Dental_Lab.Model
         public virtual User Doctor { get; set; }
         public virtual AppointmentType AppointmentType { get; set; }
 
-        //public ObservableCollection<object> ResourceCollection  => new ObservableCollection<object> { new Resource() { TypeName = "Doctors", ResourceName = Doctor != null ? Doctor.UserName : null } };
-        public ObservableCollection<object> ResourceCollection { get; set; }
+        public ObservableCollection<object> ResourceCollection
+        {
+
+            get
+            {
+                return new ObservableCollection<object> { new Resource() { TypeName = "Doctors", ResourceName = Doctor != null ? Doctor.UserName : null } };
+            }
+            set {
+                ResourceCollection = value;
+            }
+        }
+        //public ObservableCollection<object> ResourceCollection { get; set; }
     }
 }

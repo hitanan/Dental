@@ -67,8 +67,8 @@ namespace Dental_Lab.Views
 
         public ObservableCollection<ResourceType> ResourceCollection { get; set; }
 
-        private CustomAppointmentCollection _appCollection;
-        public CustomAppointmentCollection AppCollection { get => _appCollection; set { _appCollection = value; OnPropertyChanged(); } }
+        private ObservableCollection<Appointment> _appCollection;
+        public ObservableCollection<Appointment> AppCollection { get => _appCollection; set { _appCollection = value; OnPropertyChanged(); } }
 
         #endregion
 
@@ -85,7 +85,10 @@ namespace Dental_Lab.Views
             ScheduleType = "Week";
             ScheduleResource = RESOURCE;
 
-            AppCollection = new CustomAppointmentCollection();
+            //AppCollection = new ObservableCollection<Appointment>();
+            AppCollection = new ObservableCollection<Appointment>(DataProvider.Ins.DB.Appointments);
+            //var Appointments = DataProvider.Ins.DB.Appointments;
+            //List<Appointment> xx = Appointments.ToList();
 
             Clients = new ObservableCollection<Client>(DataProvider.Ins.DB.Clients);
             Doctors = new ObservableCollection<User>(DataProvider.Ins.DB.Users.Where(u => u.RoleId == 2));
@@ -94,18 +97,18 @@ namespace Dental_Lab.Views
             DateTime currentdate = DateTime.Now.Date;
             if (currentdate.DayOfWeek == System.DayOfWeek.Friday || currentdate.DayOfWeek == System.DayOfWeek.Saturday ||currentdate.DayOfWeek == System.DayOfWeek.Sunday )
                 currentdate = currentdate.SubtractDays(3);
-            AppCollection.Add(new Appointment()
-            {
-                AppointmentType = null,// AppointmentTypes.Count > 0 ? AppointmentTypes[0]: null,
-                StartTime = currentdate.AddHours(7),
-                EndTime = currentdate.AddHours(10),
-                Subject = "Checkup this is the long text line. Checkup this is the long text line",
-                Doctor = Doctors[0],
-                Client = Clients[1],
-                ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = Doctors[0].UserName } }
-            });
+            //AppCollection.Add(new Appointment()
+            //{
+            //    AppointmentType = null,// AppointmentTypes.Count > 0 ? AppointmentTypes[0]: null,
+            //    StartTime = currentdate.AddHours(7),
+            //    EndTime = currentdate.AddHours(10),
+            //    Subject = "Checkup this is the long text line. Checkup this is the long text line",
+            //    Doctor = Doctors[0],
+            //    Client = Clients[1],
+            //    ResourceCollection = new ObservableCollection<object> { new Resource() { TypeName = RESOURCE, ResourceName = Doctors[0].UserName } }
+            //});
 
-            
+
 
             // Doctor Resources
             ResourceCollection = new ObservableCollection<ResourceType>();
@@ -756,6 +759,12 @@ namespace Dental_Lab.Views
                 colections.Add(appointment);
                 SchedulerControl.Schedule.ItemsSource = colections;
             }
+
+            if (appointment.Id <= 0)
+            {
+                DataProvider.Ins.DB.Appointments.Add(appointment);
+            }
+            DataProvider.Ins.DB.SaveChanges();
 
         }
 
